@@ -1,0 +1,41 @@
+@font-face {
+  src: url(./jetbrainsmono-400.woff2) format('woff2');
+  font-family: 'Jet Brains Mono';
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  src: url(./jetbrainsmono-400.woff) format('woff');
+  font-family: 'Jet Brains Mono';
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  src: url(./jetbrainsmono-700.woff2) format('woff2');
+  font-family: 'Jet Brains Mono';
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  src: url(./jetbrainsmono-700.woff) format('woff');
+  font-family: 'Jet Brains Mono';
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  src: url(./iceland-400.woff2) format('woff2');
+  font-family: 'Iceland';
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  src: url(./iceland-400.woff) format('woff');
+  font-family: 'Iceland';
+  font-weight: 400;
+  font-display: swap;
+}
