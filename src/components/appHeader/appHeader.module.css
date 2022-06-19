@@ -1,0 +1,39 @@
+.header {
+  background-color: var(--background);
+}
+
+.content {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  max-width: 1280px;
+}
+
+.nav {
+
+}
+
+.nav__list {
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+
+.nav__item {
+  list-style: none;
+  margin-left: 8px;
+}
+
+.nav__item:first-of-type {
+  margin-left: 0px;
+}
+
+.link {
+  display: flex;
+  text-decoration: none;
+  color: var(--text-inactive-color);
+}
+
+.link.isActive {
+  color: var(--text-primary-color);
+}
