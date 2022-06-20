@@ -6,7 +6,6 @@ import { ListIcon } from '../icons/list-icon';
 import { ProfileIcon } from '../icons/profile-icon';
 
 export default function AppHeader() {
-  console.log(headerStyles)
   return (
     <header className={`${headerStyles.header} pt-4 pb-4`}>
       <div className={headerStyles.content}>
@@ -26,9 +25,7 @@ export default function AppHeader() {
             </li>
           </ul>
         </nav>
-
         <Logo />
-
         <nav>
           <ul className={headerStyles.nav__list}>
             <li className={`${headerStyles.nav__item} pl-5 pr-5 pt-4 pb-4`}>

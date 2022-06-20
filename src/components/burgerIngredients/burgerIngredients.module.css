@@ -1,3 +1,15 @@
+.menu {
+  margin: 0;
+  padding: 0;
+  max-height: calc(100vh - 284px);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.section {
+  list-style: none;
+}
+
 .ingredients {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -12,3 +24,4 @@
   display: block;
   list-style: none;
 }
+

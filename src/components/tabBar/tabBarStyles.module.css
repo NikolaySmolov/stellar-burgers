@@ -1,8 +1,8 @@
 .tabBar {
   display: flex;
   width: 600px;
+  margin: 0;
   padding: 0;
-  margin-bottom: 0;
 }
 
 .item {
