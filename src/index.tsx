@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './fonts/fonts.css';
+import './common.css';
+import './box.css';
 import App from './components/app/App';
 
 const root = ReactDOM.createRoot(
@@ -12,4 +15,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
