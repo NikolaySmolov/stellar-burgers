@@ -35,8 +35,6 @@
 }
 .custom-scroll::-webkit-scrollbar-thumb {
 	background: #8585AD;
-	/* border: 0 solid #2F2F37; */
-	/* border-radius: 0; */
 }
 
 .body::-webkit-scrollbar {
@@ -47,8 +45,6 @@
 }
 .body::-webkit-scrollbar-thumb {
 	background: #8585AD;
-	/* border: 0 solid #2F2F37;
-	border-radius: 0; */
 }
 
 body {
