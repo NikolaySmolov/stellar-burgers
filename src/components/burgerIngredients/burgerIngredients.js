@@ -19,7 +19,7 @@ export default function BuregerIngredients() {
           <h2 className='text text_type_main-medium mb-6 mt-10'>Булки</h2>
           <ul className={`${styles.ingredients} ml-4 mr-2 mb-10`}>
             {menu.bun.map(item => (
-              <Ingredient name={item.name} image={item.image} price={item.price} />
+              <Ingredient key={item._id} name={item.name} image={item.image} price={item.price} />
             ))}
           </ul>
         </li>
@@ -27,7 +27,7 @@ export default function BuregerIngredients() {
           <h2 className='text text_type_main-medium mb-6'>Соусы</h2>
           <ul className={`${styles.ingredients} ml-4 mr-2 mb-10`}>
             {menu.sauce.map(item => (
-              <Ingredient name={item.name} image={item.image} price={item.price} />
+              <Ingredient key={item._id} name={item.name} image={item.image} price={item.price} />
             ))}
           </ul>
         </li>
@@ -35,7 +35,7 @@ export default function BuregerIngredients() {
           <h2 className='text text_type_main-medium mb-6'>Начинка</h2>
           <ul className={`${styles.ingredients} ml-4 mr-2 mb-10`}>
             {menu.main.map(item => (
-              <Ingredient name={item.name} image={item.image} price={item.price} />
+              <Ingredient key={item._id} name={item.name} image={item.image} price={item.price} />
             ))}
           </ul>
         </li>

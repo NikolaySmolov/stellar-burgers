@@ -9,6 +9,11 @@
   max-width: 1280px;
 }
 
+.logo {
+  position: relative;
+  right: 87px;
+}
+
 .nav__list {
   display: flex;
   padding: 0;

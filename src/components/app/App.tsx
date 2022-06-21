@@ -10,7 +10,6 @@ function App() {
       <AppHeader />
       <main className='content'>
         <BuregerIngredients />
-        <BuregerIngredients />
       </main>
     </>
   )
