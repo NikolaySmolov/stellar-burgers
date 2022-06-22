@@ -8,6 +8,7 @@ export const Button: React.FC<{
     disabled?: boolean;
     name?: string;
     htmlType?: 'button' | 'submit' | 'reset';
+    children?: string;
 }> = ({
     children,
     type = 'primary',

@@ -9,8 +9,13 @@
   align-items: center;
 }
 
-.logo {
+.content > svg {
   margin-left: 115px;
+}
+
+
+nav:last-of-type {
+  margin-left: auto;
 }
 
 .nav__list {
@@ -36,8 +41,4 @@
 
 .link.isActive {
   color: var(--text-primary-color);
-}
-
-.account {
-  margin-left: auto;
 }

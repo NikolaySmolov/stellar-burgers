@@ -25,10 +25,10 @@ export default function AppHeader() {
             </li>
           </ul>
         </nav>
-        <div className={styles.logo}>
+        
           <Logo />
-        </div>
-        <nav className={styles.account}>
+        
+        <nav>
           <ul className={styles.nav__list}>
             <li className={`${styles.nav__item} pl-5 pr-5 pt-4 pb-4`}>
               <a href="#" className={styles.link}>

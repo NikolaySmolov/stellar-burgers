@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import { CurrencyIcon, DeleteIcon, LockIcon } from '../icons';
-import './constructor-element.css';
+import './constructorElement.css';
 
 export const ConstructorElement: React.FC<{
     type?: 'top' | 'bottom';
