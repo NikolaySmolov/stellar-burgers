@@ -7,8 +7,8 @@ import data from '../../utils/data';
 
 export default function BuregerIngredients() {
 
-  const menu = { bun: [], main: [], sauce: [] }
-  data.forEach(item => menu[item.type].push(item))
+  const menu = { bun: [], main: [], sauce: [] };
+  data.forEach(item => menu[item.type].push(item));
 
   return (
     <section>
