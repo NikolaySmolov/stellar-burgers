@@ -5,13 +5,12 @@
 .content {
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
   max-width: 1280px;
+  align-items: center;
 }
 
 .logo {
-  position: relative;
-  right: 87px;
+  margin-left: 115px;
 }
 
 .nav__list {
@@ -37,4 +36,8 @@
 
 .link.isActive {
   color: var(--text-primary-color);
+}
+
+.account {
+  margin-left: auto;
 }
