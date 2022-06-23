@@ -32,16 +32,3 @@
   width: 36px;
   height: 36px;
 }
-
-.ingredient {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
-  list-style: none;
-}
-
-.bun {
-  display: flex;
-  justify-content: flex-end;
-}
