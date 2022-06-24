@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ingredient.module.css';
-import { CurrencyIcon } from '../icons/currency-icon';
-import { Counter } from '../counter/counter';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function Ingredient({ name, image, price }) {
 

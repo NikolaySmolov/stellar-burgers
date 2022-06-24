@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './constructorRow.module.css';
-import { ConstructorElement } from '../constructorElement/constructorElement';
-import { DragIcon } from '../icons';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function ConstructorRow({isBun = false, type, data}) {
 

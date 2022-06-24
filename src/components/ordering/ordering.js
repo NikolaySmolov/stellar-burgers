@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ordering.module.css';
-import { CurrencyIcon } from '../icons';
-import { Button } from '../button/button';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 
 export default function Ordering({total}) {

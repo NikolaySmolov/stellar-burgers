@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './appHeader.module.css';
 import NavLink from '../navLink/navLink';
-import { Logo } from '../logo/logo';
-import { BurgerIcon } from '../icons/burger-icon';
-import { ListIcon } from '../icons/list-icon';
-import { ProfileIcon } from '../icons/profile-icon';
+import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
+import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function AppHeader() {
 

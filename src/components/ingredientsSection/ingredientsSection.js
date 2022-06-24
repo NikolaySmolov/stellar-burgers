@@ -3,8 +3,6 @@ import styles from './ingredientsSection.module.css';
 import Ingredient from '../ingredient/ingredient';
 
 
-
-
 export default function IngredientsSection({menuSection, data}) {
   return (
     <li className={styles.section}>

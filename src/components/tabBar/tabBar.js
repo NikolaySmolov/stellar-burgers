@@ -1,5 +1,5 @@
 import React from "react";
-import Tab from '../tab/tab';
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import tabBarStyles from './tabBarStyles.module.css';
 
 export default function TabBar() {

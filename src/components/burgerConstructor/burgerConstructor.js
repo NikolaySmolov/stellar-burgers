@@ -20,7 +20,7 @@ export default function BurgerConstructor({data}) {
     <section className={styles.constructor}>
       <div className={styles.elements}>
         <ConstructorRow isBun={true} type='top' data={data[0]} />
-        <ul className='custom-scroll'>
+        <ul className={`${styles.fills} custom-scroll`}>
           {data.map((ing, pos, array) => {
             if(pos > 0 && (pos !== array.length - 1)) {
               return (<ConstructorRow key={ing._id} data={ing} />);
