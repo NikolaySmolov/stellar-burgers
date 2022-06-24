@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './burgerIngredients.module.css';
-import TabBar from '../tabBar/tabBar';
-import IngredientsSection from '../ingredientsSection/ingredientsSection';
+import styles from './burger-ingredients.module.css';
+import TabBar from '../tab-bar/tab-bar';
+import IngredientsSection from '../ingredients-section/ingredients-section';
 import { ingredientPropTypes } from '../../utils/constants';
 
 
@@ -22,7 +22,6 @@ export default function BurgerIngredients({data}) {
   )
 }
 
-IngredientsSection.propTypes = {
-  menuSection: PropTypes.string.isRequired,
-  data: PropTypes.arrayOf(ingredientPropTypes).isRequired
+BurgerIngredients.propTypes = {
+  data: PropTypes.objectOf(PropTypes.arrayOf(ingredientPropTypes.isRequired))
 }

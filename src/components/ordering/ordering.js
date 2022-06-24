@@ -1,5 +1,5 @@
 import React from 'react';
-import { iconPropTypes } from '../../utils/constants';
+import PropTypes from 'prop-types';
 import styles from './ordering.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -18,4 +18,6 @@ export default function Ordering({total}) {
   )
 }
 
-CurrencyIcon.propTypes = iconPropTypes;
+Ordering.propTypes = {
+  total: PropTypes.number
+}

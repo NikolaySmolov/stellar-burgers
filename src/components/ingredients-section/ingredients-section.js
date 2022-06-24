@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ingredientsSection.module.css';
+import { ingredientPropTypes } from '../../utils/constants';
+import styles from './ingredients-section.module.css';
 import Ingredient from '../ingredient/ingredient';
 
 
@@ -17,8 +18,7 @@ export default function IngredientsSection({menuSection, data}) {
   )
 }
 
-Ingredient.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired
+IngredientsSection.propTypes = {
+  menuSection: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }

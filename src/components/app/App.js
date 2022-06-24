@@ -1,11 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import './App.css';
+import styles from './app.module.css';
 import data from '../../utils/data';
-import AppHeader from '../appHeader/appHeader';
-import BurgerIngredients from '../burgerIngredients/burgerIngredients';
-import BurgerConstructor from '../burgerConstructor/burgerConstructor';
-import { ingredientPropTypes } from '../../utils/constants';
+import AppHeader from '../app-header/app-header';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 
 export default function App() {
@@ -32,7 +30,7 @@ export default function App() {
   return (
     <>
       <AppHeader />
-      <main className='content'>
+      <main className={styles.content}>
         {menuData &&
         (<>
         <BurgerIngredients data={menuData} />
@@ -41,13 +39,4 @@ export default function App() {
       </main>
     </>
   )
-}
-
-
-BurgerIngredients.propTypes = {
-  data: PropTypes.objectOf(PropTypes.arrayOf(ingredientPropTypes.isRequired))
-}
-
-BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired)
 }

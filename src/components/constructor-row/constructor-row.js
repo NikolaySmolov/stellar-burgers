@@ -1,5 +1,7 @@
 import React from 'react';
-import styles from './constructorRow.module.css';
+import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../utils/constants';
+import styles from './constructor-row.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -25,4 +27,10 @@ export default function ConstructorRow({isBun = false, type, data}) {
       />
     </li>
   )
+}
+
+ConstructorRow.propTypes = {
+  isBun: PropTypes.bool,
+  type: PropTypes.string,
+  data: ingredientPropTypes.isRequired,
 }

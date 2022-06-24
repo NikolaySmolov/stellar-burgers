@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../utils/constants';
-import styles from './burgerConstructor.module.css';
-import ConstructorRow from '../constructorRow/constructorRow';
+import styles from './burger-constructor.module.css';
+import ConstructorRow from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
 
 export default function BurgerConstructor({data}) {
@@ -37,12 +37,6 @@ export default function BurgerConstructor({data}) {
   )
 }
 
-ConstructorRow.propTypes = {
-  isBun: PropTypes.bool,
-  type: PropTypes.string,
-  data: ingredientPropTypes.isRequired,
-}
-
-Ordering.propTypes = {
-  total: PropTypes.number
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired)
 }

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { iconPropTypes } from '../../utils/constants';
-import styles from './appHeader.module.css';
-import NavLink from '../navLink/navLink';
+import styles from './app-header.module.css';
+import NavLink from '../nav-link/nav-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -57,7 +56,3 @@ NavLink.propTypes = {
   text: PropTypes.string.isRequired,
   handleOnClick: PropTypes.func.isRequired
 };
-
-BurgerIcon.propTypes = iconPropTypes;
-ListIcon.propTypes = iconPropTypes;
-ProfileIcon.propTypes = iconPropTypes;

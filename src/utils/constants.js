@@ -8,8 +8,5 @@ const ingredientPropTypes = PropTypes.shape({
   image: PropTypes.string
 })
 
-const iconPropTypes = {
-  type: PropTypes.oneOf(['primary', 'secondary'])
-}
 
-export { ingredientPropTypes, iconPropTypes }
+export { ingredientPropTypes }
