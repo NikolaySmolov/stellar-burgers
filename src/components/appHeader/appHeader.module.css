@@ -24,21 +24,11 @@ nav:last-of-type {
   margin: 0;
 }
 
-.nav__item {
+.nav__list li {
   list-style: none;
   margin-left: 8px;
 }
 
-.nav__item:first-of-type {
+.nav__list li:first-of-type {
   margin-left: 0px;
-}
-
-.link {
-  display: flex;
-  text-decoration: none;
-  color: var(--text-inactive-color);
-}
-
-.link.isActive {
-  color: var(--text-primary-color);
 }

@@ -3,7 +3,7 @@ import styles from './constructorRow.module.css';
 import { ConstructorElement } from '../constructorElement/constructorElement';
 import { DragIcon } from '../icons';
 
-export default function ConstructorRow({isBun, type, data}) {
+export default function ConstructorRow({isBun = false, type, data}) {
 
   return (
     isBun

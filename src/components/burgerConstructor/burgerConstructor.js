@@ -5,6 +5,18 @@ import { CurrencyIcon } from '../icons';
 import { Button } from '../button/button';
 
 export default function BurgerConstructor({data}) {
+
+  const [totalPrice, setTotalPrice] = React.useState(null);
+
+  React.useEffect(() => {
+    const sum = data.reduce((prev, item) => {
+      return prev + item.price;
+    }, 0)
+
+    setTotalPrice(sum);
+
+  },[JSON.stringify(data)])
+
   return ( data &&
     <section className={styles.constructor}>
       <div className={styles.elements}>
@@ -12,7 +24,7 @@ export default function BurgerConstructor({data}) {
         <ul className='custom-scroll'>
           {data.map((ing, pos, array) => {
             if(pos > 0 && (pos !== array.length - 1)) {
-              return <ConstructorRow key={ing._id} isBun={false} data={ing} />
+              return <ConstructorRow key={ing._id} data={ing} />
             }
             return null
           })}
@@ -21,7 +33,7 @@ export default function BurgerConstructor({data}) {
       </div>
       <div className={`${styles.ordering} mt-10`}>
         <div className={`${styles.total} mr-10`}>
-          <p className='text text_type_digits-medium mr-2'>610</p>
+          <p className='text text_type_digits-medium mr-2'>{totalPrice}</p>
           <CurrencyIcon type='primary' />
         </div>  
         <Button type='primary' size='large'>Оформить заказ</Button>

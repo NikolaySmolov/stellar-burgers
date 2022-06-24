@@ -30,8 +30,11 @@ function App() {
     <>
       <AppHeader />
       <main className='content'>
+        {menuData &&
+        (<>
         <BurgerIngredients data={menuData}/>
         <BurgerConstructor data={inConstructor}/>
+        </>)}
       </main>
     </>
   )
