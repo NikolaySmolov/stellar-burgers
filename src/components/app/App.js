@@ -1,11 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 import data from '../../utils/data';
 import AppHeader from '../appHeader/appHeader';
 import BurgerIngredients from '../burgerIngredients/burgerIngredients';
 import BurgerConstructor from '../burgerConstructor/burgerConstructor';
+import { ingredientPropTypes } from '../../utils/constants';
 
-function App() {
+
+export default function App() {
 
   const [menuData, setMenuData] = React.useState(null);
   const [inConstructor, setInConstructor] = React.useState(null)
@@ -32,12 +35,19 @@ function App() {
       <main className='content'>
         {menuData &&
         (<>
-        <BurgerIngredients data={menuData}/>
-        <BurgerConstructor data={inConstructor}/>
+        <BurgerIngredients data={menuData} />
+        <BurgerConstructor data={inConstructor} />
         </>)}
       </main>
     </>
   )
 }
 
-export default App;
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.objectOf(PropTypes.arrayOf(ingredientPropTypes.isRequired))
+}
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired)
+}

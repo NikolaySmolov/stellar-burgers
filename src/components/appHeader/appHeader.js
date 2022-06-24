@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { iconPropTypes } from '../../utils/constants';
 import styles from './appHeader.module.css';
 import NavLink from '../navLink/navLink';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -28,10 +30,10 @@ export default function AppHeader() {
         <nav>
           <ul className={styles.nav__list}>
             <NavLink href='#' isActive={showContent.constructor} text='Конструктор' handleOnClick={handleShowConstructor}>
-              <BurgerIcon type={showContent.constructor ? "primary" : "secondary"} />
+              <BurgerIcon type={showContent.constructor ? 'primary' : 'secondary'} />
             </NavLink>
             <NavLink href='#' isActive={showContent.orders} text='Лента заказов' handleOnClick={handleShowOrders}>
-              <ListIcon type={showContent.orders ? "primary" : "secondary"} />
+              <ListIcon type={showContent.orders ? 'primary' : 'secondary'} />
             </NavLink>
 
           </ul>
@@ -40,7 +42,7 @@ export default function AppHeader() {
         <nav>
           <ul className={styles.nav__list}>
           <NavLink href='#' isActive={showContent.profile} text='Личный кабинет' handleOnClick={handleShowProfile}>
-              <ProfileIcon type={showContent.profile ? "primary" : "secondary"} />
+              <ProfileIcon type={showContent.profile ? 'primary' : 'secondary'} />
             </NavLink>
           </ul>
         </nav>
@@ -48,3 +50,14 @@ export default function AppHeader() {
     </header>
   )
 }
+
+NavLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  handleOnClick: PropTypes.func.isRequired
+};
+
+BurgerIcon.propTypes = iconPropTypes;
+ListIcon.propTypes = iconPropTypes;
+ProfileIcon.propTypes = iconPropTypes;

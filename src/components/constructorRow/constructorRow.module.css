@@ -6,7 +6,7 @@
   list-style: none;
 }
 
-.ingredient svg {
+.ingredient > svg {
   cursor: grab;
 }
 

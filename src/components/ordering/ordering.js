@@ -1,4 +1,5 @@
 import React from 'react';
+import { iconPropTypes } from '../../utils/constants';
 import styles from './ordering.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -16,3 +17,5 @@ export default function Ordering({total}) {
       </div>
   )
 }
+
+CurrencyIcon.propTypes = iconPropTypes;

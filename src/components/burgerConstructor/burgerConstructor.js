@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../utils/constants';
 import styles from './burgerConstructor.module.css';
 import ConstructorRow from '../constructorRow/constructorRow';
 import Ordering from '../ordering/ordering';
@@ -33,4 +35,14 @@ export default function BurgerConstructor({data}) {
       <Ordering total={totalPrice} />
     </section>
   )
+}
+
+ConstructorRow.propTypes = {
+  isBun: PropTypes.bool,
+  type: PropTypes.string,
+  data: ingredientPropTypes.isRequired,
+}
+
+Ordering.propTypes = {
+  total: PropTypes.number
 }

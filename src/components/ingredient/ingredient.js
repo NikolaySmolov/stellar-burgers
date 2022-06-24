@@ -1,4 +1,5 @@
 import React from 'react';
+import { iconPropTypes } from '../../utils/constants';
 import styles from './ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,7 +13,7 @@ export default function Ingredient({ name, image, price }) {
   }
 
   return (
-    <article className={styles.card} onClick={handleAddInConstructor} draggable='true'>
+    <article className={styles.card} onClick={handleAddInConstructor}>
       <img className={styles.image} src={image} alt={name} />
       <div className={`${styles.price} mt-1 mb-1`}>
         <p className={`${styles.price__text} text text_type_digits-default mr-2`}> {price} </p>
@@ -25,3 +26,5 @@ export default function Ingredient({ name, image, price }) {
     </article>
   )
 }
+
+CurrencyIcon.propTypes = iconPropTypes;

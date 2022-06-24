@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ingredientsSection.module.css';
 import Ingredient from '../ingredient/ingredient';
 
@@ -14,4 +15,10 @@ export default function IngredientsSection({menuSection, data}) {
       </ul>
     </li>
   )
+}
+
+Ingredient.propTypes = {
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
 }
