@@ -1,4 +1,4 @@
 # Stellar Burgers
 
-## Development with React
+## Develop with React
 
