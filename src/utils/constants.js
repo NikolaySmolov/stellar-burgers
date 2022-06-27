@@ -8,5 +8,6 @@ const ingredientPropTypes = PropTypes.shape({
   image: PropTypes.string
 })
 
+const API = 'https://norma.nomoreparties.space/api/ingredients';
 
-export { ingredientPropTypes }
+export { ingredientPropTypes, API }
