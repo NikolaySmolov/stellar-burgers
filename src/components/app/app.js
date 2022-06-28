@@ -18,7 +18,7 @@ export default function App() {
       try {
         const res = await fetch(API);
         const data = await res.json();
-        setAppData({...data, loading: true})
+        setAppData({...data, loading: true});
   
         setMenuData(data.data.reduce((prev, curr) => {
           if (!prev[curr.type]) {
@@ -29,19 +29,18 @@ export default function App() {
           return prev;
         }, {}));
   
-        setInConstructor(data.data)
+        setInConstructor(data.data);
   
         setAppData(appData => ({...appData, loading: false}));
   
       } catch (err){
-        setAppData(appData => ({...appData, loading: false, success: false}))
-        console.log(err)
+        setAppData(appData => ({...appData, loading: false, success: false}));
+        console.log(err);
       }
-  
-        
+
     }
   
-    getData()
+    getData();
 
   }, []);
 
