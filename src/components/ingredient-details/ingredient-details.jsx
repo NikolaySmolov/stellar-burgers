@@ -5,9 +5,9 @@ import styles from './ingredient-details.module.css';
 export default function IngredientDetails( {name, image_large, calories, proteins, fat, carbohydrates} ) {
   
   return (
-    <div className={`${styles.details} pt-10 pr-10 pb-15 pl-10`}>
+    <div className={`${styles.wrapper} pt-10 pr-10 pb-15 pl-10`}>
       <h2 className={`${styles.title} text text_type_main-large`}>Детали ингредиента</h2>
-      <img className={styles.image} alt={name} src={image_large}/>
+      <img className={`${styles.image} noselect`} alt={name} src={image_large}/>
       <p className={`${styles.name} text text_type_main-medium mt-4 mb-8`}>{name}</p>
       <ul className={styles['nutritional-list']}>
         <li className={`${styles['nutritional-item']}`}>

@@ -9,22 +9,26 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 export default function Ingredient(props) {
 
-  const [counter, setCount] = React.useState(0);
-  const [isShowModal, setShowModal] = React.useState(false);
+  const [counter, setCount] = React.useState({isShown: false, count: null});
+  const [showModal, setShowModal] = React.useState(false);
 
 
-  function handleCloseModal() {
-    console.log('close')
+  function handleCloseModal(e) {
     setShowModal(false);
   }
   
   function handleOpenModal() {
-    console.log('open')
     setShowModal(true);
   }
 
+  const modal = showModal ? (
+                  <Modal onClose={handleCloseModal}>
+                    <IngredientDetails {...props} />
+                  </Modal>
+                ) : null;
   
   return (
+    <>
     <article className={styles.card} onClick={handleOpenModal}>
       <img className={styles.image} src={props.image} alt={props.name} />
       <div className={`${styles.price} mt-1 mb-1`}>
@@ -35,17 +39,19 @@ export default function Ingredient(props) {
       {counter.isShown && (<div className={styles.counter}>
         <Counter count={counter.count} size="default" />
       </div>)}
-      {isShowModal ? 
-      (<Modal onClose={handleCloseModal}>
-        <IngredientDetails {...props} />
-      </Modal>)
-      : null}
     </article>
+    {modal}
+    </>
   )
 }
 
 Ingredient.propTypes = {
   name: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired
+  image_large: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  fat: PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired
 }
