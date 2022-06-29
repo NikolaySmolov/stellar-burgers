@@ -16,7 +16,7 @@ export default function BurgerConstructor({data}) {
 
     setTotalPrice(sum);
 
-  },[JSON.stringify(data)])
+  },[data])
 
   return (
     <section className={styles.constructor}>

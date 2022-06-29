@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../utils/constants';
 import styles from './ingredients-section.module.css';
-import Ingredient from '../ingredient/ingredient';
+import Ingredient  from '../ingredient/ingredient';
 
 
 export default function IngredientsSection({menuSection, data}) {

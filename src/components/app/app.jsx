@@ -4,6 +4,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { API } from '../../utils/constants';
+import ModalError from '../modal-error/modal-error';
 
 
 export default function App() {
@@ -48,11 +49,14 @@ export default function App() {
     <>
       <AppHeader />
       <main className={styles.content}>
-        { appData.success &&
-        (<>
-          <BurgerIngredients data={menuData} />
-          <BurgerConstructor data={inConstructor} />
-        </>)
+        { appData.success
+          ? (<>
+            <BurgerIngredients data={menuData} />
+            <BurgerConstructor data={inConstructor} />
+          </>)
+          : appData.loading
+          ? null
+          : <ModalError/>
         }
       </main>
     </>

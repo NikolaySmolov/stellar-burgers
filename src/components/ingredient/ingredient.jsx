@@ -9,17 +9,18 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 export default function Ingredient(props) {
 
-  const [counter, setCount] = React.useState({isShown: false, count: null});
+  const counter = {isShown: false, count: null};
+
   const [showModal, setShowModal] = React.useState(false);
 
 
-  function handleCloseModal(e) {
+  const handleCloseModal = (e) => {
     setShowModal(false);
-  }
+  };
   
-  function handleOpenModal() {
+  const handleOpenModal = () => {
     setShowModal(true);
-  }
+  };
 
   const modal = showModal ? (
                   <Modal onClose={handleCloseModal}>
@@ -54,4 +55,4 @@ Ingredient.propTypes = {
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
   carbohydrates: PropTypes.number.isRequired
-}
+};
