@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from 'prop-types';
 import styles from './ingredient-details.module.css';
+import { ingredientDetails } from "../../utils/constants";
 
 
 export default function IngredientDetails( {name, image_large, calories, proteins, fat, carbohydrates} ) {
@@ -48,13 +48,4 @@ export default function IngredientDetails( {name, image_large, calories, protein
   )
 }
 
-IngredientDetails.propTypes = {
-  name: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  image_large: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired
-};
+IngredientDetails.propTypes = ingredientDetails.isRequired;

@@ -18,7 +18,13 @@ export default function App() {
       
       try {
         const res = await fetch(API);
+        
+        if (!res.ok) {
+          throw new Error(`res.ok: ${res.ok}, res.status: ${res.status}`);
+        }
+
         const data = await res.json();
+        
         setAppData({...data, loading: true});
   
         setMenuData(data.data.reduce((prev, curr) => {
@@ -51,8 +57,8 @@ export default function App() {
       <main className={styles.content}>
         { appData.success
           ? (<>
-            <BurgerIngredients data={menuData} />
-            <BurgerConstructor data={inConstructor} />
+            <BurgerIngredients ingredients={menuData} />
+            <BurgerConstructor cart={inConstructor} />
           </>)
           : appData.loading
           ? null

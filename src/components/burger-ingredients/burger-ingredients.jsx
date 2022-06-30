@@ -7,21 +7,25 @@ import { ingredientPropTypes } from '../../utils/constants';
 
 
 
-export default function BurgerIngredients({data}) {
+export default function BurgerIngredients({ingredients}) {
+
+  const bunSection = React.useRef(null);
+  const sauceSection = React.useRef(null);
+  const mainSection = React.useRef(null);
 
   return (
     <section>
       <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
-      <TabBar />
+      <TabBar bunSectionRef={bunSection} sauceSectionRef={sauceSection} mainSectionRef={mainSection} />
         <ul className={`${styles.menu} custom-scroll`}>
-          <IngredientsSection menuSection='Булки' data={data.bun} />
-          <IngredientsSection menuSection='Соусы' data={data.sauce} />
-          <IngredientsSection menuSection='Начинки' data={data.main} />
+          <IngredientsSection menuSection='Булки' data={ingredients.bun} scrollToRef={bunSection} />
+          <IngredientsSection menuSection='Соусы' data={ingredients.sauce} scrollToRef={sauceSection} />
+          <IngredientsSection menuSection='Начинки' data={ingredients.main} scrollToRef={mainSection} />
         </ul>
     </section>
   )
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.objectOf(PropTypes.arrayOf(ingredientPropTypes.isRequired))
+  ingredients: PropTypes.objectOf(PropTypes.arrayOf(ingredientPropTypes.isRequired))
 }

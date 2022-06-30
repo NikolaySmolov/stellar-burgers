@@ -4,7 +4,7 @@ import styles from './order-details.module.css';
 import doneImg from '../../images/done.jpg';
 
 
-export default function OrderDetails({orderId = '034536'}) {
+export default function OrderDetails({orderId}) {
 
   return (
     <div className={`${styles.wrapper} pt-30 pr-25 pb-30 pl-25`}>
@@ -18,5 +18,5 @@ export default function OrderDetails({orderId = '034536'}) {
 }
 
 OrderDetails.propTypes = {
-  orderId: PropTypes.number.isRequired
+  orderId: PropTypes.string.isRequired
 }

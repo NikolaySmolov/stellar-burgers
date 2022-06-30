@@ -21,7 +21,7 @@ export default function Ordering({total}) {
 
   const modal = showModal ? (
     <Modal onClose={handleCloseModal}>
-      <OrderDetails />
+      <OrderDetails orderId='034536'/>
     </Modal>
   ) : null;
 
