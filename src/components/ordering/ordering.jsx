@@ -3,9 +3,27 @@ import PropTypes from 'prop-types';
 import styles from './ordering.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import Modal from '../modal/modal';
+import OrderDetails from '../order-details/order-details';
 
 
 export default function Ordering({total}) {
+
+  const [showModal, setModalState] = React.useState(false);
+
+  const handleCloseModal = () => {
+    setModalState(false);
+  }
+
+  const handleOpenModal = () => {
+    setModalState(true);
+  }
+
+  const modal = showModal ? (
+    <Modal onClose={handleCloseModal}>
+      <OrderDetails orderId='034536'/>
+    </Modal>
+  ) : null;
 
   return (
     <div className={`${styles.ordering} mt-10`}>
@@ -13,8 +31,9 @@ export default function Ordering({total}) {
           <p className='text text_type_digits-medium mr-2'>{total}</p>
           <CurrencyIcon type='primary' />
         </div>  
-        <Button type='primary' size='large'>Оформить заказ</Button>
-      </div>
+        <Button type='primary' size='large' onClick={handleOpenModal}>Оформить заказ</Button>
+        {modal}
+    </div>
   )
 }
 

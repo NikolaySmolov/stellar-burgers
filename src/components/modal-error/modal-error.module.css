@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 720px;
+  min-height: 434px;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  background-color: var(--background);
+  z-index: 2;
+}
