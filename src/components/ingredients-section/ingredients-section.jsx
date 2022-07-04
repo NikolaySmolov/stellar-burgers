@@ -5,9 +5,9 @@ import styles from './ingredients-section.module.css';
 import Ingredient  from '../ingredient/ingredient';
 
 
-export default function IngredientsSection({menuSection, data, scrollToRef}) {
+const IngredientsSection = React.forwardRef(({menuSection, data}, ref) => {
   return (
-    <li className={styles.section} ref={scrollToRef}>
+    <li className={styles.section} ref={ref}>
       <h2 className='text text_type_main-medium mb-6 mt-10'>{menuSection}</h2>
       <ul className={`${styles.ingredients} ml-4 mr-2 mb-10`}>
         {data.map(itemData => (
@@ -16,9 +16,11 @@ export default function IngredientsSection({menuSection, data, scrollToRef}) {
       </ul>
     </li>
   )
-}
+})
 
 IngredientsSection.propTypes = {
   menuSection: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired
 }
+
+export default IngredientsSection

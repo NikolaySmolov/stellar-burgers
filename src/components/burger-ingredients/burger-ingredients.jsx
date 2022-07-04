@@ -18,9 +18,9 @@ export default function BurgerIngredients({ingredients}) {
       <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
       <TabBar bunSectionRef={bunSection} sauceSectionRef={sauceSection} mainSectionRef={mainSection} />
         <ul className={`${styles.menu} custom-scroll`}>
-          <IngredientsSection menuSection='Булки' data={ingredients.bun} scrollToRef={bunSection} />
-          <IngredientsSection menuSection='Соусы' data={ingredients.sauce} scrollToRef={sauceSection} />
-          <IngredientsSection menuSection='Начинки' data={ingredients.main} scrollToRef={mainSection} />
+          <IngredientsSection menuSection='Булки' data={ingredients.bun} ref={bunSection} />
+          <IngredientsSection menuSection='Соусы' data={ingredients.sauce} ref={sauceSection} />
+          <IngredientsSection menuSection='Начинки' data={ingredients.main} ref={mainSection} />
         </ul>
     </section>
   )
