@@ -5,8 +5,7 @@ import styles from './burger-constructor.module.css';
 import ConstructorRow from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
 
-export default function BurgerConstructor({cart}) {
-
+export default function BurgerConstructor({ cart }) {
   const [totalPrice, setTotalPrice] = React.useState(null);
 
   React.useEffect(() => {
@@ -15,28 +14,35 @@ export default function BurgerConstructor({cart}) {
     }, 0);
 
     setTotalPrice(sum);
-
-  },[cart])
+  }, [cart]);
 
   return (
     <section className={styles.constructor}>
       <div className={styles.elements}>
-        <ConstructorRow isBun={true} type='top' data={cart.find(ing => ing.type === 'bun')} />
+        <ConstructorRow
+          isBun={true}
+          type="top"
+          data={cart.find(ing => ing.type === 'bun')}
+        />
         <ul className={`${styles.fills} custom-scroll`}>
-          {cart.map((ing) => {
-            if(ing.type !== 'bun') {
-              return (<ConstructorRow key={ing._id} data={ing} />);
+          {cart.map(ing => {
+            if (ing.type !== 'bun') {
+              return <ConstructorRow key={ing._id} data={ing} />;
             }
             return null;
           })}
         </ul>
-        <ConstructorRow isBun={true} type='bottom' data={cart.find(ing => ing.type === 'bun')} />
+        <ConstructorRow
+          isBun={true}
+          type="bottom"
+          data={cart.find(ing => ing.type === 'bun')}
+        />
       </div>
       <Ordering total={totalPrice} />
     </section>
-  )
+  );
 }
 
 BurgerConstructor.propTypes = {
-  cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
-}
+  cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+};
