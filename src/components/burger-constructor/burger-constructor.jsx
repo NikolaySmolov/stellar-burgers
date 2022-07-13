@@ -1,48 +1,35 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/constants';
 import styles from './burger-constructor.module.css';
 import ConstructorRow from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
+import { SUM } from '../../utils/constants';
+import { totalPriceReducer, totalPriceInitialState } from './utils';
+import { ConstructorContext } from '../../services/constructor-context';
 
-export default function BurgerConstructor({ cart }) {
-  const [totalPrice, setTotalPrice] = React.useState(null);
+export default function BurgerConstructor() {
+  const { constructorState } = React.useContext(ConstructorContext);
+  const [totalPriceState, totalPriceDispatcher] = React.useReducer(
+    totalPriceReducer,
+    totalPriceInitialState
+  );
 
   React.useEffect(() => {
-    const sum = cart.reduce((prev, item) => {
-      return prev + item.price;
-    }, 0);
-
-    setTotalPrice(sum);
-  }, [cart]);
+    totalPriceDispatcher({ type: SUM, payload: constructorState.bun });
+    constructorState.filling.forEach((item) => totalPriceDispatcher({ type: SUM, payload: item }));
+  }, [constructorState]);
 
   return (
     <section className={styles.constructor}>
       <div className={styles.elements}>
-        <ConstructorRow
-          isBun={true}
-          type="top"
-          data={cart.find(ing => ing.type === 'bun')}
-        />
+        <ConstructorRow isBun={true} type="top" data={constructorState.bun} />
         <ul className={`${styles.fills} custom-scroll`}>
-          {cart.map(ing => {
-            if (ing.type !== 'bun') {
-              return <ConstructorRow key={ing._id} data={ing} />;
-            }
-            return null;
-          })}
+          {constructorState.filling.map((filling, index) => (
+            <ConstructorRow key={index} data={filling} />
+          ))}
         </ul>
-        <ConstructorRow
-          isBun={true}
-          type="bottom"
-          data={cart.find(ing => ing.type === 'bun')}
-        />
+        <ConstructorRow isBun={true} type="bottom" data={constructorState.bun} />
       </div>
-      <Ordering total={totalPrice} />
+      <Ordering totalPrice={totalPriceState} />
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};

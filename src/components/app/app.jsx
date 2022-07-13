@@ -3,16 +3,14 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { API } from '../../utils/constants';
+import { API, ADD_BUN, ADD_FILLING } from '../../utils/constants';
 import { ConstructorContext } from '../../services/constructor-context';
 import { constructorReducer, constructorInitialState } from './utils';
 import ModalError from '../modal-error/modal-error';
 
 export default function App() {
   const [appData, setAppData] = React.useState({ data: [], loading: true });
-  const [menuData, setMenuData] = React.useState(null);
-  const [inConstructor, setInConstructor] = React.useState(null); // deprecated
-  const [construnctorState, constructorDispatcher] = React.useReducer(
+  const [constructorState, constructorDispatcher] = React.useReducer(
     constructorReducer,
     constructorInitialState
   );
@@ -30,30 +28,23 @@ export default function App() {
 
         setAppData({ ...data, loading: true });
 
-        setMenuData(
-          data.data.reduce((prev, curr) => {
-            if (!prev[curr.type]) {
-              prev[curr.type] = [curr];
-            } else {
-              prev[curr.type].push(curr);
-            }
-            return prev;
-          }, {})
-        );
-
-        setInConstructor(data.data); //depracated
         constructorDispatcher({
-          type: 'addBun',
-          payload: data.data.find(ing => ing.type === 'bun'),
-        });
-        constructorDispatcher({
-          type: 'addFilling',
-          payload: data.data.filter(ing => ing.type !== 'bun'),
+          type: ADD_BUN,
+          payload: data.data.find((ingredient) => ingredient.type === 'bun'),
         });
 
-        setAppData(appData => ({ ...appData, loading: false }));
+        constructorDispatcher({
+          type: ADD_FILLING,
+          payload: data.data.filter((ingredient, index) => ingredient.type !== 'bun' && index < 5),
+        });
+
+        setAppData((appData) => ({ ...appData, loading: false }));
       } catch (err) {
-        setAppData(appData => ({ ...appData, loading: false, success: false }));
+        setAppData((appData) => ({
+          ...appData,
+          loading: false,
+          success: false,
+        }));
         console.log(err);
       }
     };
@@ -67,9 +58,9 @@ export default function App() {
       <main className={styles.content}>
         {appData.success ? (
           <>
-            <BurgerIngredients ingredients={menuData} />
-            <ConstructorContext.Provider value={{ construnctorState, constructorDispatcher }}>
-              <BurgerConstructor cart={inConstructor} />
+            <BurgerIngredients ingredients={appData.data} />
+            <ConstructorContext.Provider value={{ constructorState, constructorDispatcher }}>
+              <BurgerConstructor />
             </ConstructorContext.Provider>
           </>
         ) : appData.loading ? null : (

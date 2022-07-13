@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const ingredientPropTypes = PropTypes.shape({
+export const ingredientPropTypes = PropTypes.shape({
   _id: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
@@ -11,19 +11,22 @@ const ingredientPropTypes = PropTypes.shape({
   fat: PropTypes.number,
   proteins: PropTypes.number,
   image_large: PropTypes.string,
-  image_mobile: PropTypes.string
-})
+  image_mobile: PropTypes.string,
+});
 
-const ingredientDetails = PropTypes.shape({
+export const ingredientDetails = PropTypes.shape({
   name: PropTypes.string,
   image_large: PropTypes.string,
   price: PropTypes.number,
   calories: PropTypes.number,
   proteins: PropTypes.number,
   fat: PropTypes.number,
-  carbohydrates: PropTypes.number
-})
+  carbohydrates: PropTypes.number,
+});
 
-const API = 'https://norma.nomoreparties.space/api/ingredients';
+export const ADD_BUN = 'addBun';
+export const ADD_FILLING = 'addFilling';
+export const SUM = 'sum';
+export const SUBTRUCT = 'subtruct';
 
-export { ingredientPropTypes, ingredientDetails, API }
+export const API = 'https://norma.nomoreparties.space/api/ingredients';
