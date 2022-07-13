@@ -1,6 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   position: fixed;
   left: 50%;
@@ -11,4 +12,9 @@
   border-radius: 40px;
   background-color: var(--background);
   z-index: 2;
+}
+
+.image {
+  height: 140px;
+  width: 140px;
 }

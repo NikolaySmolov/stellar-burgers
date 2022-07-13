@@ -13,9 +13,11 @@ export default function BurgerConstructor() {
     totalPriceInitialState
   );
 
+  const rowKeyRef = React.useRef(0);
+
   React.useEffect(() => {
     totalPriceDispatcher({ type: SUM, payload: constructorState.bun });
-    constructorState.filling.forEach((item) => totalPriceDispatcher({ type: SUM, payload: item }));
+    constructorState.filling.forEach(item => totalPriceDispatcher({ type: SUM, payload: item }));
   }, [constructorState]);
 
   return (
@@ -23,8 +25,8 @@ export default function BurgerConstructor() {
       <div className={styles.elements}>
         <ConstructorRow isBun={true} type="top" data={constructorState.bun} />
         <ul className={`${styles.fills} custom-scroll`}>
-          {constructorState.filling.map((filling, index) => (
-            <ConstructorRow key={index} data={filling} />
+          {constructorState.filling.map(filling => (
+            <ConstructorRow key={rowKeyRef.current++} data={filling} />
           ))}
         </ul>
         <ConstructorRow isBun={true} type="bottom" data={constructorState.bun} />

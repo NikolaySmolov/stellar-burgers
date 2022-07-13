@@ -3,10 +3,11 @@ import styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { API, ADD_BUN, ADD_FILLING } from '../../utils/constants';
 import { ConstructorContext } from '../../services/constructor-context';
 import { constructorReducer, constructorInitialState } from './utils';
 import ModalError from '../modal-error/modal-error';
+import { ADD_BUN, ADD_FILLING } from '../../utils/constants';
+import { getIngredients } from '../../utils/api';
 
 export default function App() {
   const [appData, setAppData] = React.useState({ data: [], loading: true });
@@ -16,21 +17,13 @@ export default function App() {
   );
 
   React.useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await fetch(API);
-
-        if (!res.ok) {
-          throw new Error(`res.ok: ${res.ok}, res.status: ${res.status}`);
-        }
-
-        const data = await res.json();
-
+    getIngredients()
+      .then(data => {
         setAppData({ ...data, loading: true });
 
         constructorDispatcher({
           type: ADD_BUN,
-          payload: data.data.find((ingredient) => ingredient.type === 'bun'),
+          payload: data.data.find(ingredient => ingredient.type === 'bun'),
         });
 
         constructorDispatcher({
@@ -38,18 +31,17 @@ export default function App() {
           payload: data.data.filter((ingredient, index) => ingredient.type !== 'bun' && index < 6),
         });
 
-        setAppData((appData) => ({ ...appData, loading: false }));
-      } catch (err) {
-        setAppData((appData) => ({
+        setAppData(appData => ({ ...appData, loading: false }));
+      })
+      .catch(err => {
+        console.log(err);
+
+        setAppData(appData => ({
           ...appData,
           loading: false,
           success: false,
         }));
-        console.log(err);
-      }
-    };
-
-    getData();
+      });
   }, []);
 
   return (

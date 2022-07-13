@@ -1,4 +1,4 @@
-import { ADD_BUN, ADD_FILLING } from '../../utils/constants';
+import { ADD_BUN, ADD_FILLING, REMOVE_FILLING } from '../../utils/constants';
 
 export const constructorReducer = (state, action) => {
   switch (action.type) {
@@ -12,6 +12,6 @@ export const constructorReducer = (state, action) => {
 };
 
 export const constructorInitialState = {
-  bun: {},
+  bun: null,
   filling: [],
 };
