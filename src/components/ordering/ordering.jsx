@@ -5,9 +5,56 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
+import { ConstructorContext } from '../../services/constructor-context';
+import { submitOrder } from '../../utils/constants';
 
 export default function Ordering({ totalPrice }) {
   const [showModal, setModalState] = React.useState(false);
+  const [orderState, setOrderState] = React.useState({
+    loading: false,
+    success: true,
+    order: {
+      number: null,
+      ingredients: [],
+    },
+  });
+  const { constructorState } = React.useContext(ConstructorContext);
+
+  React.useEffect(() => {
+    const listOfIngredientsId = [];
+
+    for (let value of Object.values(constructorState)) {
+      if (Array.isArray(value)) {
+        value.forEach((ingredient) => listOfIngredientsId.push(ingredient._id));
+      } else {
+        listOfIngredientsId.push(value._id);
+      }
+    }
+
+    setOrderState((orderState) => ({
+      ...orderState,
+      order: { ...orderState.order, ingredients: listOfIngredientsId },
+    }));
+  }, [constructorState]);
+
+  const handleSubmitOrder = () => {
+    setOrderState((orderState) => ({ ...orderState, loading: true, success: false }));
+
+    submitOrder(orderState.order)
+      .then((data) => {
+        setOrderState((orderState) => ({
+          loading: false,
+          success: true,
+          order: { number: data.order.number, ingredients: [...orderState.order.ingredients] },
+        }));
+        handleOpenModal();
+      })
+      .catch((err) => {
+        setOrderState((orderState) => ({ ...orderState, loading: false, success: false }));
+        console.log(err);
+        handleOpenModal();
+      });
+  };
 
   const handleCloseModal = () => {
     setModalState(false);
@@ -19,7 +66,7 @@ export default function Ordering({ totalPrice }) {
 
   const modal = showModal ? (
     <Modal onClose={handleCloseModal}>
-      <OrderDetails orderId="034536" />
+      <OrderDetails orderId={orderState.order.number} />
     </Modal>
   ) : null;
 
@@ -29,7 +76,7 @@ export default function Ordering({ totalPrice }) {
         <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large" onClick={handleOpenModal} disabled={false}>
+      <Button type="primary" size="large" onClick={handleSubmitOrder} disabled={false}>
         Оформить заказ
       </Button>
       {modal}

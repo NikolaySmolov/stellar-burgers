@@ -35,7 +35,7 @@ export default function App() {
 
         constructorDispatcher({
           type: ADD_FILLING,
-          payload: data.data.filter((ingredient, index) => ingredient.type !== 'bun' && index < 5),
+          payload: data.data.filter((ingredient, index) => ingredient.type !== 'bun' && index < 6),
         });
 
         setAppData((appData) => ({ ...appData, loading: false }));
