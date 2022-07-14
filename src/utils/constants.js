@@ -14,6 +14,7 @@ export const ingredientPropTypes = PropTypes.shape({
   proteins: PropTypes.number,
   image_large: PropTypes.string,
   image_mobile: PropTypes.string,
+  handleShowDetails: PropTypes.func,
 });
 
 export const ingredientDetails = PropTypes.shape({
@@ -31,3 +32,5 @@ export const ADD_FILLING = 'addFilling';
 export const REMOVE_FILLING = 'removeFilling';
 export const SUM = 'sum';
 export const SUBTRUCT = 'subtruct';
+export const OPEN = 'open';
+export const CLOSE = 'close';
