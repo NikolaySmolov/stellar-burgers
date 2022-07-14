@@ -1,12 +1,16 @@
 import { API } from './constants';
 
+async function checkResponse(res) {
+  return res.ok ? await res.json() : Promise.reject(`res.ok: ${res.ok}, res.status: ${res.status}`);
+}
+
 export const getIngredients = async () => {
   const res = await fetch(`${API}/ingredients`);
 
-  return res.ok ? await res.json() : Promise.reject(`res.ok: ${res.ok}, res.status: ${res.status}`);
+  return checkResponse(res);
 };
 
-export const sendOrder = async order => {
+export const sendOrder = async (order) => {
   const res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: {
@@ -15,5 +19,5 @@ export const sendOrder = async order => {
     body: JSON.stringify(order),
   });
 
-  return res.ok ? await res.json() : Promise.reject(`res.ok: ${res.ok}, res.status: ${res.status}`);
+  return checkResponse(res);
 };
