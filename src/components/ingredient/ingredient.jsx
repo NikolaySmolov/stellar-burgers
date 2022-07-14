@@ -5,7 +5,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ingredientPropTypes } from '../../utils/constants';
 
 export default function Ingredient(props) {
-  const counter = null;
+  const [counterState, setCounter] = React.useState(null);
 
   const handleShowDetails = () => {
     props.handleShowDetails(props);
@@ -22,9 +22,9 @@ export default function Ingredient(props) {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}> {props.name} </p>
-      {counter && (
+      {counterState && (
         <div className={styles.counter}>
-          <Counter count={counter} size="default" />
+          <Counter count={counterState} size="default" />
         </div>
       )}
     </article>

@@ -20,6 +20,7 @@ const IngredientsSection = React.forwardRef(({ menuSection, data, handleShowDeta
 IngredientsSection.propTypes = {
   menuSection: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  handleShowDetails: PropTypes.func.isRequired,
 };
 
 export default IngredientsSection;

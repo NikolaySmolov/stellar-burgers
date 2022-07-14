@@ -14,6 +14,7 @@ export const ingredientPropTypes = PropTypes.shape({
   proteins: PropTypes.number,
   image_large: PropTypes.string,
   image_mobile: PropTypes.string,
+  handleShowDetails: PropTypes.func,
 });
 
 export const ingredientDetails = PropTypes.shape({
