@@ -3,9 +3,29 @@ import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
 import TabBar from '../tab-bar/tab-bar';
 import IngredientsSection from '../ingredients-section/ingredients-section';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import { ingredientPropTypes } from '../../utils/constants';
+import { modalStateReducer, modalInitialState } from './utils';
+import { OPEN, CLOSE } from '../../utils/constants';
 
 export default function BurgerIngredients({ ingredients }) {
+  const [modalState, modalDispatcher] = React.useReducer(modalStateReducer, modalInitialState);
+
+  const handleCloseModal = () => {
+    modalDispatcher({ type: CLOSE });
+  };
+
+  const handleOpenModal = (details) => {
+    modalDispatcher({ type: OPEN, payload: details });
+  };
+
+  const modal = modalState.details ? (
+    <Modal onClose={handleCloseModal}>
+      <IngredientDetails {...modalState.details} />
+    </Modal>
+  ) : null;
+
   const bunSection = React.useRef(null);
   const sauceSection = React.useRef(null);
   const mainSection = React.useRef(null);
@@ -33,23 +53,41 @@ export default function BurgerIngredients({ ingredients }) {
 
     return (
       <>
-        <IngredientsSection menuSection="Булки" data={buns} ref={bunSection} />
-        <IngredientsSection menuSection="Соусы" data={sauces} ref={sauceSection} />
-        <IngredientsSection menuSection="Начинки" data={main} ref={mainSection} />
+        <IngredientsSection
+          menuSection="Булки"
+          handleShowDetails={handleOpenModal}
+          data={buns}
+          ref={bunSection}
+        />
+        <IngredientsSection
+          menuSection="Соусы"
+          handleShowDetails={handleOpenModal}
+          data={sauces}
+          ref={sauceSection}
+        />
+        <IngredientsSection
+          menuSection="Начинки"
+          handleShowDetails={handleOpenModal}
+          data={main}
+          ref={mainSection}
+        />
       </>
     );
   }, [ingredients]);
 
   return (
-    <section>
-      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <TabBar
-        bunSectionRef={bunSection}
-        sauceSectionRef={sauceSection}
-        mainSectionRef={mainSection}
-      />
-      <ul className={`${styles.menu} custom-scroll`}>{content}</ul>
-    </section>
+    <>
+      <section>
+        <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+        <TabBar
+          bunSectionRef={bunSection}
+          sauceSectionRef={sauceSection}
+          mainSectionRef={mainSection}
+        />
+        <ul className={`${styles.menu} custom-scroll`}>{content}</ul>
+      </section>
+      {modal}
+    </>
   );
 }
 

@@ -31,3 +31,5 @@ export const ADD_FILLING = 'addFilling';
 export const REMOVE_FILLING = 'removeFilling';
 export const SUM = 'sum';
 export const SUBTRUCT = 'subtruct';
+export const OPEN = 'open';
+export const CLOSE = 'close';
