@@ -5,53 +5,32 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { ConstructorContext } from '../../services/constructor-context';
 import { sendOrder } from '../../utils/api';
 import ModalError from '../modal-error/modal-error';
 
-export default function Ordering({ totalPrice }) {
+export default function Ordering({ inOrder, totalPrice, isReady }) {
   const [showModal, setModalState] = React.useState(false);
   const [orderState, setOrderState] = React.useState({
     loading: false,
     success: true,
-    order: {
-      number: null,
-      ingredients: [],
-    },
+    orderNumber: null,
   });
-  const { constructorState } = React.useContext(ConstructorContext);
-
-  React.useEffect(() => {
-    const listOfIngredientsId = [];
-
-    for (let value of Object.values(constructorState)) {
-      if (Array.isArray(value)) {
-        value.forEach(ingredient => listOfIngredientsId.push(ingredient._id));
-      } else {
-        listOfIngredientsId.push(value._id);
-      }
-    }
-
-    setOrderState(orderState => ({
-      ...orderState,
-      order: { ...orderState.order, ingredients: listOfIngredientsId },
-    }));
-  }, [constructorState]);
 
   const handleSendOrder = () => {
-    setOrderState(orderState => ({ ...orderState, loading: true, success: false }));
+    debugger;
+    setOrderState((orderState) => ({ ...orderState, loading: true, success: false }));
 
-    sendOrder(orderState.order)
-      .then(data => {
-        setOrderState(orderState => ({
+    sendOrder(inOrder)
+      .then((data) => {
+        setOrderState({
           loading: false,
           success: true,
-          order: { number: data.order.number, ingredients: [...orderState.order.ingredients] },
-        }));
+          orderNumber: data.order.number,
+        });
         handleOpenModal();
       })
-      .catch(err => {
-        setOrderState(orderState => ({ ...orderState, loading: false, success: false }));
+      .catch((err) => {
+        setOrderState({ loading: false, success: false, orderNumber: null });
         console.log(err);
         handleOpenModal();
       });
@@ -68,7 +47,7 @@ export default function Ordering({ totalPrice }) {
   const modal = showModal ? (
     orderState.success ? (
       <Modal onClose={handleCloseModal}>
-        <OrderDetails orderId={orderState.order.number} />
+        <OrderDetails orderId={orderState.orderNumber} />
       </Modal>
     ) : (
       <ModalError />
@@ -81,15 +60,7 @@ export default function Ordering({ totalPrice }) {
         <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button
-        type="primary"
-        size="large"
-        onClick={handleSendOrder}
-        disabled={
-          constructorState.bun && constructorState.filling.some(ingredient => ingredient._id)
-            ? false
-            : true
-        }>
+      <Button type="primary" size="large" onClick={handleSendOrder} disabled={isReady}>
         Оформить заказ
       </Button>
       {modal}

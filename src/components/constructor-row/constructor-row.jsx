@@ -4,12 +4,8 @@ import { ingredientPropTypes } from '../../utils/constants';
 import styles from './constructor-row.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ConstructorContext } from '../../services/constructor-context';
-import { REMOVE_FILLING } from '../../utils/constants';
 
 export default function ConstructorRow({ isBun = false, type, data }) {
-  const { constructorDispatcher } = React.useContext(ConstructorContext);
-
   return isBun ? (
     <div className={`${styles.bun} pl-4 pr-4`}>
       <ConstructorElement
