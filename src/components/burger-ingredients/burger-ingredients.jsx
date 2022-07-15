@@ -9,9 +9,8 @@ import { OPEN, CLOSE } from '../../utils/constants';
 import { BurgerContext } from '../../services/burger-context';
 
 export default function BurgerIngredients() {
-  const ingredients = React.useContext(BurgerContext);
-
   const [modalState, modalDispatcher] = React.useReducer(modalStateReducer, modalInitialState);
+  const { burgerContext } = React.useContext(BurgerContext);
 
   const handleCloseModal = () => {
     modalDispatcher({ type: CLOSE });
@@ -36,7 +35,7 @@ export default function BurgerIngredients() {
     const sauces = [];
     const main = [];
 
-    ingredients.forEach((ingredient) => {
+    burgerContext.ingredients.forEach((ingredient) => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);
@@ -74,7 +73,7 @@ export default function BurgerIngredients() {
         />
       </>
     );
-  }, [ingredients]);
+  }, [burgerContext]);
 
   return (
     <>

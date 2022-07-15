@@ -15,6 +15,7 @@ export const ingredientPropTypes = PropTypes.shape({
   image_large: PropTypes.string,
   image_mobile: PropTypes.string,
   handleShowDetails: PropTypes.func,
+  count: PropTypes.number,
 });
 
 export const ingredientDetails = PropTypes.shape({
@@ -32,5 +33,5 @@ export const ADD = 'add';
 export const SUBTRUCT = 'subtruct';
 export const OPEN = 'open';
 export const CLOSE = 'close';
-
 export const BUN = 'bun';
+export const FILLING = 'filling';

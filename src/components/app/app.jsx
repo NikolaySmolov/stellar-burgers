@@ -6,34 +6,36 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { BurgerContext } from '../../services/burger-context';
 import ModalError from '../modal-error/modal-error';
 import { getIngredients } from '../../utils/api';
+import { burgerContextReducer, burgerContextInitState } from './utils';
 
 export default function App() {
-  const [data, setData] = React.useState([]);
-  const [appState, setAppState] = React.useState({ loading: true, success: false });
+  const [appData, setAppData] = React.useState({ loading: true, success: false, ingredients: [] });
+  const [burgerContext, burgerContextDispatcher] = React.useReducer(
+    burgerContextReducer,
+    burgerContextInitState
+  );
 
   React.useEffect(() => {
     getIngredients()
-      .then(data => {
-        setData(data.data);
-
-        setAppState({ loading: false, success: true });
+      .then((data) => {
+        setAppData({ loading: false, success: true, ingredients: data.data });
+        burgerContextDispatcher({ type: 'init', payload: data.data });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-        setAppState({ loading: false, success: false });
+        setAppData({ loading: false, success: false, ingredients: [] });
       });
   }, []);
-
   return (
     <>
       <AppHeader />
       <main className={styles.content}>
-        {appState.success ? (
-          <BurgerContext.Provider value={data}>
+        {appData.success ? (
+          <BurgerContext.Provider value={{ burgerContext, burgerContextDispatcher }}>
             <BurgerIngredients />
-            <BurgerConstructor />
+            {/* <BurgerConstructor /> */}
           </BurgerContext.Provider>
-        ) : appState.loading ? null : (
+        ) : appData.loading ? null : (
           <ModalError />
         )}
       </main>
