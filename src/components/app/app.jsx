@@ -13,12 +13,12 @@ export default function App() {
 
   React.useEffect(() => {
     getIngredients()
-      .then((data) => {
+      .then(data => {
         setData(data.data);
 
         setAppState({ loading: false, success: true });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setAppState({ loading: false, success: false });
       });

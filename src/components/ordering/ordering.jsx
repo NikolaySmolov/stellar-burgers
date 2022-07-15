@@ -8,7 +8,7 @@ import OrderDetails from '../order-details/order-details';
 import { sendOrder } from '../../utils/api';
 import ModalError from '../modal-error/modal-error';
 
-export default function Ordering({ inOrder, totalPrice, isReady }) {
+export default function Ordering({ inOrder, totalPrice, isDisabled }) {
   const [showModal, setModalState] = React.useState(false);
   const [orderState, setOrderState] = React.useState({
     loading: false,
@@ -18,10 +18,10 @@ export default function Ordering({ inOrder, totalPrice, isReady }) {
 
   const handleSendOrder = () => {
     debugger;
-    setOrderState((orderState) => ({ ...orderState, loading: true, success: false }));
+    setOrderState(orderState => ({ ...orderState, loading: true, success: false }));
 
     sendOrder(inOrder)
-      .then((data) => {
+      .then(data => {
         setOrderState({
           loading: false,
           success: true,
@@ -29,7 +29,7 @@ export default function Ordering({ inOrder, totalPrice, isReady }) {
         });
         handleOpenModal();
       })
-      .catch((err) => {
+      .catch(err => {
         setOrderState({ loading: false, success: false, orderNumber: null });
         console.log(err);
         handleOpenModal();
@@ -60,7 +60,7 @@ export default function Ordering({ inOrder, totalPrice, isReady }) {
         <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large" onClick={handleSendOrder} disabled={isReady}>
+      <Button type="primary" size="large" onClick={handleSendOrder} disabled={isDisabled}>
         Оформить заказ
       </Button>
       {modal}

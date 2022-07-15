@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './burger-constructor.module.css';
 import ConstructorRow from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
-import { ADD_FILLING, ADD_BUN } from '../../utils/constants';
+import { BUN } from '../../utils/constants';
 import { BurgerContext } from '../../services/burger-context';
-import { constructorReducer, constructorInitialState } from './utils';
+import { constructorReducer, constructorInitialState, findBun } from './utils';
 
 export default function BurgerConstructor() {
   const ingredients = React.useContext(BurgerContext);
@@ -14,79 +14,70 @@ export default function BurgerConstructor() {
     constructorInitialState
   );
 
-  const [orderState, setOrderState] = React.useState({ orderList: null, totalPrice: 0 });
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
-  // for tests
+  //for tests
   React.useEffect(() => {
-    constructorDispatcher({
-      type: ADD_BUN,
-      payload: ingredients.find((ingredient) => ingredient.type === 'bun'),
-    });
+    const testInitArr = [];
+
+    for (let i = 0, ing; i < 5; testInitArr.push(ing), i++) {
+      !testInitArr.some(findBun) ? (ing = ingredients.find(findBun)) : (ing = ingredients[i]);
+    }
 
     constructorDispatcher({
-      type: ADD_FILLING,
-      payload: ingredients.filter((ingredient, index) => ingredient.type !== 'bun' && index < 6),
+      type: 'testInit',
+      payload: testInitArr,
     });
   }, [ingredients]);
 
+  React.useEffect(() => {
+    const total = constructorState.reduce(
+      (prev, curr) => (curr.type === BUN ? (prev += curr.price * 2) : (prev += curr.price)),
+      0
+    );
+
+    setTotalPrice(total);
+  }, [constructorState]);
+
   const rowKeyRef = React.useRef(0);
+
+  const bunProps = React.useMemo(() => {
+    return constructorState.find(findBun);
+  }, [constructorState]);
+
+  const includesFilling = React.useMemo(() => {
+    return constructorState.some(ing => ing.type !== BUN);
+  }, [constructorState]);
 
   const content = React.useMemo(() => {
     return (
       <>
-        {constructorState.bun ? (
-          <ConstructorRow isBun={true} type="top" data={constructorState.bun} />
-        ) : null}
-        {constructorState.filling ? (
+        {bunProps ? <ConstructorRow isBun={true} type="top" data={bunProps} /> : null}
+        {includesFilling ? (
           <ul className={`${styles.fills} custom-scroll`}>
-            {constructorState.filling.map((filling) => (
-              <ConstructorRow key={rowKeyRef.current++} data={filling} />
-            ))}
+            {constructorState.map(filling =>
+              filling.type !== BUN ? (
+                <ConstructorRow key={rowKeyRef.current++} data={filling} />
+              ) : null
+            )}
           </ul>
         ) : null}
-        {constructorState.bun ? (
-          <ConstructorRow isBun={true} type="bottom" data={constructorState.bun} />
-        ) : null}
+        {bunProps ? <ConstructorRow isBun={true} type="bottom" data={bunProps} /> : null}
       </>
     );
-  }, [constructorState]);
+  }, [constructorState, bunProps, includesFilling]);
 
   const ordering = React.useMemo(() => {
-    const isReady = () => {
-      const result = constructorState.bun && constructorState.filling ? false : true;
-      return result;
+    const disabled = () => {
+      return bunProps && includesFilling ? false : true;
     };
 
-    return (
-      <Ordering
-        isReady={isReady()}
-        inOrder={orderState.orderList}
-        totalPrice={orderState.totalPrice}
-      />
-    );
-  }, [constructorState, orderState]);
+    const ingIdList = () => {
+      return constructorState.length > 0 ? constructorState.map(ing => ing._id) : [];
+    };
 
-  React.useEffect(() => {
-    const idList = [];
-    let total = 0;
-    console.log(constructorState);
-    for (let value of Object.values(constructorState)) {
-      if (value == null) {
-        continue;
-      } else if (Array.isArray(value)) {
-        value.forEach((item) => {
-          idList.push(item._id);
-
-          total += item.price;
-        });
-      } else {
-        idList.push(value._id);
-        total += value.price;
-      }
-    }
-
-    setOrderState({ orderList: idList, totalPrice: total });
-  }, [constructorState]);
+    return <Ordering isDisabled={disabled()} inOrder={ingIdList()} totalPrice={totalPrice} />;
+  }, [constructorState, totalPrice, bunProps, includesFilling]);
 
   return (
     <section className={styles.constructor}>

@@ -1,33 +1,28 @@
-import { SUM, SUBTRUCT } from '../../utils/constants';
+import { ADD, SUBTRUCT, BUN } from '../../utils/constants';
 
-import { ADD_BUN, ADD_FILLING } from '../../utils/constants';
+export const constructorInitialState = [];
 
-export const constructorInitialState = { bun: null, filling: null };
+export const findBun = () => {
+  return ing => {
+    return ing.type ? ing.type === BUN : false;
+  };
+};
 
 export const constructorReducer = (state, action) => {
-  switch (action.type) {
-    case ADD_BUN:
-      return { ...state, bun: action.payload };
-    case ADD_FILLING:
-      return state.filling
-        ? { ...state, filling: [...state.filling].concat(action.payload) }
-        : { ...state, filling: action.payload };
-    default:
-      return state;
-  }
-};
+  const indexBun = state.findIndex(findBun);
+  const includesBun = ~indexBun;
 
-export const totalPriceReducer = (state, action) => {
-  if (!action.payload) return state;
-  const price = action.payload.type === 'bun' ? action.payload.price * 2 : action.payload.price;
   switch (action.type) {
-    case SUM:
-      return (state += price);
+    case 'testInit':
+      return action.payload;
+    case ADD:
+      return includesBun
+        ? [...state].splice(indexBun, 1, action.payload)
+        : [...state].push(action.payload);
     case SUBTRUCT:
-      return (state -= price);
+      alert('Hello handle SUBTRUCT ingredient');
+      break;
     default:
       return state;
   }
 };
-
-export const totalPriceInitialState = 0;
