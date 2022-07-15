@@ -10,13 +10,13 @@ export const getIngredients = async () => {
   return checkResponse(res);
 };
 
-export const sendOrder = async (order) => {
+export const sendOrder = async order => {
   const res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(order),
+    body: JSON.stringify({ ingredients: order }),
   });
 
   return checkResponse(res);

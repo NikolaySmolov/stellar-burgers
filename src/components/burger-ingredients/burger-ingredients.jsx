@@ -1,22 +1,22 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styles from './burger-ingredients.module.css';
-import TabBar from '../tab-bar/tab-bar';
+import { TabBar } from '../tab-bar/tab-bar';
 import IngredientsSection from '../ingredients-section/ingredients-section';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientPropTypes } from '../../utils/constants';
 import { modalStateReducer, modalInitialState } from './utils';
 import { OPEN, CLOSE } from '../../utils/constants';
+import { BurgerContext } from '../../services/burger-context';
 
-export default function BurgerIngredients({ ingredients }) {
+export default function BurgerIngredients() {
   const [modalState, modalDispatcher] = React.useReducer(modalStateReducer, modalInitialState);
+  const { burgerContext } = React.useContext(BurgerContext);
 
   const handleCloseModal = () => {
     modalDispatcher({ type: CLOSE });
   };
 
-  const handleOpenModal = (details) => {
+  const handleOpenModal = details => {
     modalDispatcher({ type: OPEN, payload: details });
   };
 
@@ -35,7 +35,7 @@ export default function BurgerIngredients({ ingredients }) {
     const sauces = [];
     const main = [];
 
-    ingredients.forEach((ingredient) => {
+    burgerContext.ingredients.forEach(ingredient => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);
@@ -73,7 +73,7 @@ export default function BurgerIngredients({ ingredients }) {
         />
       </>
     );
-  }, [ingredients]);
+  }, [burgerContext]);
 
   return (
     <>
@@ -90,7 +90,3 @@ export default function BurgerIngredients({ ingredients }) {
     </>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes.isRequired),
-};

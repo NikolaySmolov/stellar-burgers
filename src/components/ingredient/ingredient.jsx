@@ -2,17 +2,28 @@ import React from 'react';
 import styles from './ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredientPropTypes } from '../../utils/constants';
+import { BUN, FILLING, ingredientPropTypes } from '../../utils/constants';
+import { BurgerContext } from '../../services/burger-context';
 
 export default function Ingredient(props) {
-  const [counterState, setCounter] = React.useState(null);
+  const { burgerContextDispatcher } = React.useContext(BurgerContext);
 
   const handleShowDetails = () => {
     props.handleShowDetails(props);
   };
 
+  const handleAddInConstructor = () => {
+    const isBun = props.type === BUN;
+
+    burgerContextDispatcher({ type: isBun ? BUN : FILLING, payload: props });
+  };
+
   return (
-    <article className={styles.card} onClick={handleShowDetails}>
+    <article
+      className={styles.card}
+      onClick={handleShowDetails}
+      onDragStart={handleAddInConstructor}
+      draggable={'true'}>
       <img className={styles.image} src={props.image} alt={props.name} />
       <div className={`${styles.price} mt-1 mb-1`}>
         <p className={`${styles.price__text} text text_type_digits-default mr-2`}>
@@ -22,11 +33,11 @@ export default function Ingredient(props) {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}> {props.name} </p>
-      {counterState && (
+      {props.qnty ? (
         <div className={styles.counter}>
-          <Counter count={counterState} size="default" />
+          <Counter count={props.qnty} size="default" />
         </div>
-      )}
+      ) : null}
     </article>
   );
 }

@@ -1,16 +1,28 @@
-import { SUM, SUBTRUCT } from '../../utils/constants';
+import { ADD, SUBTRUCT, BUN } from '../../utils/constants';
 
-export const totalPriceReducer = (state, action) => {
-  if (!action.payload) return state;
-  const price = action.payload.type === 'bun' ? action.payload.price * 2 : action.payload.price;
+export const constructorInitialState = [];
+
+export const findBun = () => {
+  return ing => {
+    return ing.type ? ing.type === BUN : false;
+  };
+};
+
+export const constructorReducer = (state, action) => {
+  const indexBun = state.findIndex(findBun);
+  const includesBun = ~indexBun;
+
   switch (action.type) {
-    case SUM:
-      return (state += price);
+    case 'testInit':
+      return action.payload;
+    case ADD:
+      return includesBun
+        ? [...state].splice(indexBun, 1, action.payload)
+        : [...state].push(action.payload);
     case SUBTRUCT:
-      return (state -= price);
+      alert('Hello handle SUBTRUCT ingredient');
+      break;
     default:
       return state;
   }
 };
-
-export const totalPriceInitialState = 0;

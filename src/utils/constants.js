@@ -15,6 +15,7 @@ export const ingredientPropTypes = PropTypes.shape({
   image_large: PropTypes.string,
   image_mobile: PropTypes.string,
   handleShowDetails: PropTypes.func,
+  count: PropTypes.number,
 });
 
 export const ingredientDetails = PropTypes.shape({
@@ -27,10 +28,12 @@ export const ingredientDetails = PropTypes.shape({
   carbohydrates: PropTypes.number,
 });
 
-export const ADD_BUN = 'addBun';
-export const ADD_FILLING = 'addFilling';
-export const REMOVE_FILLING = 'removeFilling';
 export const SUM = 'sum';
+export const ADD = 'add';
 export const SUBTRUCT = 'subtruct';
 export const OPEN = 'open';
 export const CLOSE = 'close';
+export const BUN = 'bun';
+export const FILLING = 'filling';
+export const CALC = 'calc';
+export const RESET = 'reset';
