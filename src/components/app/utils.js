@@ -3,23 +3,24 @@ import { SUBTRUCT, BUN, FILLING } from '../../utils/constants';
 export const burgerContextInitState = null;
 
 export const findIndex = (arr, id) => {
-  return arr.findIndex((item) => item._id === id);
+  return arr.findIndex(item => item._id === id);
 };
 
-function createConstructorItem(item, idCounter) {
+function createConstructorItem(item, tempId) {
   const constructorItem = { ...item };
-  return (constructorItem.tempId = idCounter);
+  constructorItem.tempId = tempId;
+  return constructorItem;
 }
 
 export const burgerContextReducer = (state, action) => {
-  let newState, index, constructorItem;
+  let newState, index;
 
   switch (action.type) {
     case 'init':
       newState = { ingredients: [], tempIdCount: 1e4, inConstructor: { bun: [], filling: [] } };
 
-      newState.ingredients = action.payload.map((item) => {
-        item.count = 0;
+      newState.ingredients = action.payload.map(item => {
+        item.qnty = 0;
         return item;
       });
 
@@ -27,11 +28,11 @@ export const burgerContextReducer = (state, action) => {
 
     case BUN:
       newState = { ...state };
-      newState.ingredients.forEach((item) => {
+      newState.ingredients.forEach(item => {
         if (item.type === BUN && item._id === action.payload._id) {
-          item.count = 1;
+          item.qnty = 1;
         } else if (item.type === BUN) {
-          item.count = 0;
+          item.qnty = 0;
         }
       });
 
@@ -43,17 +44,25 @@ export const burgerContextReducer = (state, action) => {
     case FILLING:
       newState = { ...state };
       index = findIndex(newState.ingredients, action.payload._id);
-      newState.ingredients[index].count++;
+      newState.ingredients[index].qnty++;
 
-      constructorItem = { ...action.payload };
-      constructorItem.tempId = ++newState.tempIdCount;
+      ++newState.tempIdCount;
 
-      newState.inConstructor.filling = [...newState.inConstructor.filling, action.payload];
+      newState.inConstructor.filling = [
+        ...newState.inConstructor.filling,
+        createConstructorItem(action.payload, newState.tempIdCount),
+      ];
       return newState;
     case SUBTRUCT:
-      newState = [...state];
-      index = findIndex(newState, action.payload._id);
-      newState[index].count--;
+      newState = { ...state };
+      index = findIndex(newState.ingredients, action.payload._id);
+      newState.ingredients[index].qnty--;
+
+      action.payload.type === BUN
+        ? (newState.inConstructor.bun = [])
+        : (newState.inConstructor.filling = newState.inConstructor.filling.filter(
+            item => item.tempId !== action.payload.tempId
+          ));
       return newState;
     default:
       return state;

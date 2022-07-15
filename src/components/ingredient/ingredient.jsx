@@ -23,8 +23,7 @@ export default function Ingredient(props) {
       className={styles.card}
       onClick={handleShowDetails}
       onDragStart={handleAddInConstructor}
-      draggable={'true'}
-    >
+      draggable={'true'}>
       <img className={styles.image} src={props.image} alt={props.name} />
       <div className={`${styles.price} mt-1 mb-1`}>
         <p className={`${styles.price__text} text text_type_digits-default mr-2`}>
@@ -34,9 +33,9 @@ export default function Ingredient(props) {
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}> {props.name} </p>
-      {props.count ? (
+      {props.qnty ? (
         <div className={styles.counter}>
-          <Counter count={props.count} size="default" />
+          <Counter count={props.qnty} size="default" />
         </div>
       ) : null}
     </article>

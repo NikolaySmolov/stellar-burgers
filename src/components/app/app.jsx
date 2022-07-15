@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
+import { AppHeader } from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { BurgerContext } from '../../services/burger-context';
@@ -17,11 +17,11 @@ export default function App() {
 
   React.useEffect(() => {
     getIngredients()
-      .then((data) => {
+      .then(data => {
         setAppData({ loading: false, success: true, ingredients: data.data });
         burgerContextDispatcher({ type: 'init', payload: data.data });
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
         setAppData({ loading: false, success: false, ingredients: [] });
       });
@@ -33,7 +33,7 @@ export default function App() {
         {appData.success ? (
           <BurgerContext.Provider value={{ burgerContext, burgerContextDispatcher }}>
             <BurgerIngredients />
-            {/* <BurgerConstructor /> */}
+            <BurgerConstructor />
           </BurgerContext.Provider>
         ) : appData.loading ? null : (
           <ModalError />

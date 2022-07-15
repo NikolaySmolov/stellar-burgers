@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
-import TabBar from '../tab-bar/tab-bar';
+import { TabBar } from '../tab-bar/tab-bar';
 import IngredientsSection from '../ingredients-section/ingredients-section';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -16,7 +16,7 @@ export default function BurgerIngredients() {
     modalDispatcher({ type: CLOSE });
   };
 
-  const handleOpenModal = (details) => {
+  const handleOpenModal = details => {
     modalDispatcher({ type: OPEN, payload: details });
   };
 
@@ -35,7 +35,7 @@ export default function BurgerIngredients() {
     const sauces = [];
     const main = [];
 
-    burgerContext.ingredients.forEach((ingredient) => {
+    burgerContext.ingredients.forEach(ingredient => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);

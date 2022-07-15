@@ -35,3 +35,5 @@ export const OPEN = 'open';
 export const CLOSE = 'close';
 export const BUN = 'bun';
 export const FILLING = 'filling';
+export const CALC = 'calc';
+export const RESET = 'reset';

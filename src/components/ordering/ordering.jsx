@@ -8,7 +8,7 @@ import OrderDetails from '../order-details/order-details';
 import { sendOrder } from '../../utils/api';
 import ModalError from '../modal-error/modal-error';
 
-export default function Ordering({ inOrder, totalPrice, isDisabled }) {
+export default function Ordering({ totalPrice, orderList, isDisabled }) {
   const [showModal, setModalState] = React.useState(false);
   const [orderState, setOrderState] = React.useState({
     loading: false,
@@ -17,10 +17,9 @@ export default function Ordering({ inOrder, totalPrice, isDisabled }) {
   });
 
   const handleSendOrder = () => {
-    debugger;
     setOrderState(orderState => ({ ...orderState, loading: true, success: false }));
 
-    sendOrder(inOrder)
+    sendOrder(orderList)
       .then(data => {
         setOrderState({
           loading: false,
@@ -69,5 +68,7 @@ export default function Ordering({ inOrder, totalPrice, isDisabled }) {
 }
 
 Ordering.propTypes = {
-  totalPrice: PropTypes.number,
+  totalPrice: PropTypes.number.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  orderList: PropTypes.arrayOf(PropTypes.string),
 };
