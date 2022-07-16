@@ -1,42 +1,65 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/constants';
 import styles from './burger-constructor.module.css';
 import ConstructorRow from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
+import { BurgerContext } from '../../services/burger-context';
+import { BUN, CALC, RESET } from '../../utils/constants';
 
-export default function BurgerConstructor({cart}) {
+const totalInitState = 0;
 
-  const [totalPrice, setTotalPrice] = React.useState(null);
+function reducer(state, action) {
+  if (action.payload.length === 0) return totalInitState;
+
+  switch (action.type) {
+    case CALC:
+      return action.payload.reduce((prev, curr) => {
+        curr.type === BUN ? (prev += curr.price * 2) : (prev += curr.price);
+        return prev;
+      }, 0);
+    case RESET:
+      return totalInitState;
+    default:
+      return totalInitState;
+  }
+}
+
+export default function BurgerConstructor() {
+  const {
+    burgerContext: {
+      inConstructor: { bun, filling },
+    },
+  } = React.useContext(BurgerContext);
+
+  const [total, totalDispatcher] = React.useReducer(reducer, totalInitState);
+
+  const includesBun = bun.length;
+
+  const incluedesFilling = filling.length;
+
+  const canOrder = !(bun.length > 0 && filling.length > 0);
+
+  const orderList = React.useMemo(() => {
+    return [...bun, ...filling].map(item => item._id);
+  }, [bun, filling]);
 
   React.useEffect(() => {
-    const sum = cart.reduce((prev, item) => {
-      return prev + item.price;
-    }, 0);
-
-    setTotalPrice(sum);
-
-  },[cart])
+    totalDispatcher({ type: CALC, payload: [...bun, ...filling] });
+  }, [bun, filling, total]);
 
   return (
     <section className={styles.constructor}>
       <div className={styles.elements}>
-        <ConstructorRow isBun={true} type='top' data={cart.find(ing => ing.type === 'bun')} />
-        <ul className={`${styles.fills} custom-scroll`}>
-          {cart.map((ing) => {
-            if(ing.type !== 'bun') {
-              return (<ConstructorRow key={ing._id} data={ing} />);
-            }
-            return null;
-          })}
-        </ul>
-        <ConstructorRow isBun={true} type='bottom' data={cart.find(ing => ing.type === 'bun')} />
+        {includesBun ? <ConstructorRow isBun={true} type="top" data={bun[0]} /> : null}
+        {incluedesFilling ? (
+          <ul className={`${styles.fills} custom-scroll`}>
+            {filling.map(item => (
+              <ConstructorRow key={item.tempId} data={item} />
+            ))}
+          </ul>
+        ) : null}
+        {includesBun ? <ConstructorRow isBun={true} type="bottom" data={bun[0]} /> : null}
       </div>
-      <Ordering total={totalPrice} />
+      <Ordering isDisabled={canOrder} orderList={orderList} totalPrice={total} />
     </section>
-  )
-}
-
-BurgerConstructor.propTypes = {
-  cart: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired
+  );
 }

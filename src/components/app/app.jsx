@@ -1,70 +1,44 @@
 import React from 'react';
 import styles from './app.module.css';
-import AppHeader from '../app-header/app-header';
+import { AppHeader } from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { API } from '../../utils/constants';
+import { BurgerContext } from '../../services/burger-context';
 import ModalError from '../modal-error/modal-error';
-
+import { getIngredients } from '../../utils/api';
+import { burgerContextReducer, burgerContextInitState } from './utils';
 
 export default function App() {
-  const [appData, setAppData] = React.useState({data: [], loading: true})
-  const [menuData, setMenuData] = React.useState(null);
-  const [inConstructor, setInConstructor] = React.useState(null)
+  const [appData, setAppData] = React.useState({ loading: true, success: false, ingredients: [] });
+  const [burgerContext, burgerContextDispatcher] = React.useReducer(
+    burgerContextReducer,
+    burgerContextInitState
+  );
 
   React.useEffect(() => {
-
-    const getData = async () => {
-      
-      try {
-        const res = await fetch(API);
-        
-        if (!res.ok) {
-          throw new Error(`res.ok: ${res.ok}, res.status: ${res.status}`);
-        }
-
-        const data = await res.json();
-        
-        setAppData({...data, loading: true});
-  
-        setMenuData(data.data.reduce((prev, curr) => {
-          if (!prev[curr.type]) {
-            prev[curr.type] = [curr];
-          } else {
-            prev[curr.type].push(curr);
-          }
-          return prev;
-        }, {}));
-  
-        setInConstructor(data.data);
-  
-        setAppData(appData => ({...appData, loading: false}));
-  
-      } catch (err){
-        setAppData(appData => ({...appData, loading: false, success: false}));
+    getIngredients()
+      .then(data => {
+        setAppData({ loading: false, success: true, ingredients: data.data });
+        burgerContextDispatcher({ type: 'init', payload: data.data });
+      })
+      .catch(err => {
         console.log(err);
-      }
-
-    }
-  
-    getData();
-
+        setAppData({ loading: false, success: false, ingredients: [] });
+      });
   }, []);
-
   return (
     <>
       <AppHeader />
       <main className={styles.content}>
-        { appData.success
-          ? (<>
-            <BurgerIngredients ingredients={menuData} />
-            <BurgerConstructor cart={inConstructor} />
-          </>)
-          : appData.loading
-          ? null
-          : <ModalError/>
-        }
+        {appData.success ? (
+          <BurgerContext.Provider value={{ burgerContext, burgerContextDispatcher }}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </BurgerContext.Provider>
+        ) : appData.loading ? null : (
+          <ModalError />
+        )}
       </main>
     </>
-  )
+  );
 }
