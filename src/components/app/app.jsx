@@ -5,7 +5,7 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import { BurgerContext } from '../../services/burger-context';
 import ModalError from '../modal-error/modal-error';
-import { getIngredients } from '../../utils/api';
+import { requireIngredients } from '../../utils/api';
 import { burgerContextReducer, burgerContextInitState } from './utils';
 
 export default function App() {
@@ -16,7 +16,7 @@ export default function App() {
   );
 
   React.useEffect(() => {
-    getIngredients()
+    requireIngredients()
       .then(data => {
         setAppData({ loading: false, success: true, ingredients: data.data });
         burgerContextDispatcher({ type: 'init', payload: data.data });

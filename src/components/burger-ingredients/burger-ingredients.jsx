@@ -4,6 +4,13 @@ import { TabBar } from '../tab-bar/tab-bar';
 import IngredientsSection from '../ingredients-section/ingredients-section';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  getIngredients,
+  OPEN_INGREDIENT_DETAILS,
+  CLOSE_INGREDIENT_DETAILS,
+} from '../../services/actions/burger';
+
 import { modalStateReducer, modalInitialState } from './utils';
 import { OPEN, CLOSE } from '../../utils/constants';
 import { BurgerContext } from '../../services/burger-context';
@@ -13,11 +20,17 @@ export default function BurgerIngredients() {
   const { burgerContext } = React.useContext(BurgerContext);
   const [currentTab, setCurrentTab] = React.useState('buns');
 
+  const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
+
   const handleCloseModal = () => {
     modalDispatcher({ type: CLOSE });
   };
 
-  const handleOpenModal = (details) => {
+  const handleOpenModal = details => {
     modalDispatcher({ type: OPEN, payload: details });
   };
 
@@ -49,7 +62,7 @@ export default function BurgerIngredients() {
     const sauces = [];
     const main = [];
 
-    burgerContext.ingredients.forEach((ingredient) => {
+    burgerContext.ingredients.forEach(ingredient => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);

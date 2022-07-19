@@ -5,8 +5,12 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BUN, FILLING, ingredientPropTypes } from '../../utils/constants';
 import { BurgerContext } from '../../services/burger-context';
 
+import { useDispatch } from 'react-redux';
+import { INCREASE_INGREDIENT } from '../../services/actions/burger';
+
 export default function Ingredient(props) {
   const { burgerContextDispatcher } = React.useContext(BurgerContext);
+  const dispatch = useDispatch();
 
   const handleShowDetails = () => {
     props.handleShowDetails(props);
@@ -16,6 +20,8 @@ export default function Ingredient(props) {
     const isBun = props.type === BUN;
 
     burgerContextDispatcher({ type: isBun ? BUN : FILLING, payload: props });
+
+    dispatch({ type: INCREASE_INGREDIENT, ingredient: props });
   };
 
   return (
