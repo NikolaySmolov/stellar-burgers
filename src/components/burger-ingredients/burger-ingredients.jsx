@@ -11,12 +11,13 @@ import { BurgerContext } from '../../services/burger-context';
 export default function BurgerIngredients() {
   const [modalState, modalDispatcher] = React.useReducer(modalStateReducer, modalInitialState);
   const { burgerContext } = React.useContext(BurgerContext);
+  const [currentTab, setCurrentTab] = React.useState('buns');
 
   const handleCloseModal = () => {
     modalDispatcher({ type: CLOSE });
   };
 
-  const handleOpenModal = details => {
+  const handleOpenModal = (details) => {
     modalDispatcher({ type: OPEN, payload: details });
   };
 
@@ -26,16 +27,29 @@ export default function BurgerIngredients() {
     </Modal>
   ) : null;
 
-  const bunSection = React.useRef(null);
-  const sauceSection = React.useRef(null);
-  const mainSection = React.useRef(null);
+  const bunHeading = React.useRef(null);
+  const saucesHeading = React.useRef(null);
+  const mainHeading = React.useRef(null);
+
+  const followTabs = () => {
+    const saucesHeadingBox = saucesHeading.current.getBoundingClientRect();
+    const mainHeadingBox = mainHeading.current.getBoundingClientRect();
+
+    if (saucesHeadingBox.y < 275 && mainHeadingBox.y > 275 && currentTab !== 'sauces') {
+      setCurrentTab('sauces');
+    } else if (mainHeadingBox.y < 275 && currentTab !== 'main') {
+      setCurrentTab('filling');
+    } else if (saucesHeadingBox.y > 275 && currentTab !== 'buns') {
+      setCurrentTab('buns');
+    }
+  };
 
   const content = React.useMemo(() => {
     const buns = [];
     const sauces = [];
     const main = [];
 
-    burgerContext.ingredients.forEach(ingredient => {
+    burgerContext.ingredients.forEach((ingredient) => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);
@@ -57,19 +71,21 @@ export default function BurgerIngredients() {
           menuSection="Булки"
           handleShowDetails={handleOpenModal}
           data={buns}
-          ref={bunSection}
+          ref={bunHeading}
         />
         <IngredientsSection
+          headingRef={saucesHeading}
           menuSection="Соусы"
           handleShowDetails={handleOpenModal}
           data={sauces}
-          ref={sauceSection}
+          ref={saucesHeading}
         />
         <IngredientsSection
+          headingRef={mainHeading}
           menuSection="Начинки"
           handleShowDetails={handleOpenModal}
           data={main}
-          ref={mainSection}
+          ref={mainHeading}
         />
       </>
     );
@@ -80,11 +96,14 @@ export default function BurgerIngredients() {
       <section>
         <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
         <TabBar
-          bunSectionRef={bunSection}
-          sauceSectionRef={sauceSection}
-          mainSectionRef={mainSection}
+          bunSectionRef={bunHeading}
+          sauceSectionRef={saucesHeading}
+          mainSectionRef={mainHeading}
+          currentTab={currentTab}
         />
-        <ul className={`${styles.menu} custom-scroll`}>{content}</ul>
+        <ul onScroll={followTabs} className={`${styles.menu} custom-scroll`}>
+          {content}
+        </ul>
       </section>
       {modal}
     </>

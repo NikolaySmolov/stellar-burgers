@@ -6,8 +6,10 @@ import Ingredient from '../ingredient/ingredient';
 
 const IngredientsSection = React.forwardRef(({ menuSection, data, handleShowDetails }, ref) => {
   return (
-    <li className={styles.section} ref={ref}>
-      <h2 className="text text_type_main-medium mb-6 mt-10">{menuSection}</h2>
+    <li className={styles.section}>
+      <h2 ref={ref} className="text text_type_main-medium mb-6 mt-10">
+        {menuSection}
+      </h2>
       <ul className={`${styles.ingredients} ml-4 mr-2 mb-10`}>
         {data.map((itemData) => (
           <Ingredient key={itemData._id} handleShowDetails={handleShowDetails} {...itemData} />
