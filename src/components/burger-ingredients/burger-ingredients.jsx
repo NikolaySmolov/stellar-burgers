@@ -34,7 +34,7 @@ export default function BurgerIngredients() {
   const saucesHeading = React.useRef(null);
   const mainHeading = React.useRef(null);
 
-  const followTabs = () => {
+  const tabsFollowing = () => {
     const saucesHeadingBox = saucesHeading.current.getBoundingClientRect();
     const mainHeadingBox = mainHeading.current.getBoundingClientRect();
 
@@ -99,7 +99,7 @@ export default function BurgerIngredients() {
           mainSectionRef={mainHeading}
           currentTab={currentTab}
         />
-        <ul onScroll={followTabs} className={`${styles.menu} custom-scroll`}>
+        <ul onScroll={tabsFollowing} className={`${styles.menu} custom-scroll`}>
           {content}
         </ul>
       </section>

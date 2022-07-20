@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ingredientPropTypes, SUBTRUCT } from '../../utils/constants';
+import { ingredientPropTypes } from '../../utils/constants';
 import styles from './constructor-row.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerContext } from '../../services/burger-context';
+import { useDispatch } from 'react-redux';
+import { DECREASE_INGREDIENT } from '../../services/actions/burger';
 
-export default function ConstructorRow({ isBun = false, type, data }) {
-  const { burgerContextDispatcher } = React.useContext(BurgerContext);
+export const ConstructorRow = React.memo(({ isBun = false, type, data }) => {
+  const dispatch = useDispatch();
 
-  const handleDelete = React.useCallback(() => {
-    burgerContextDispatcher({ type: SUBTRUCT, payload: data });
-  }, [data, burgerContextDispatcher]);
+  const handleDelete = () => {
+    dispatch({ type: DECREASE_INGREDIENT, ingredient: data });
+  };
 
   return isBun ? (
     <div className={`${styles.bun} pl-4 pr-4`}>
@@ -34,7 +35,7 @@ export default function ConstructorRow({ isBun = false, type, data }) {
       />
     </li>
   );
-}
+});
 
 ConstructorRow.propTypes = {
   isBun: PropTypes.bool,

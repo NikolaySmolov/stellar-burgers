@@ -10,7 +10,7 @@ export default function App() {
       <AppHeader />
       <main className={styles.content}>
         <BurgerIngredients />
-        {/* <BurgerConstructor /> */}
+        <BurgerConstructor />
       </main>
     </>
   );
