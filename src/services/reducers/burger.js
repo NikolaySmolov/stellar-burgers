@@ -1,4 +1,4 @@
-import { BUN, FILLING } from '../../utils/constants';
+import { BUN } from '../../utils/constants';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -11,7 +11,7 @@ import {
 
 const initialState = {
   ingredients: [],
-  ingredientsRequest: false,
+  ingredientsRequest: true,
   ingredientsFailed: false,
   constructor: [],
   constructorTempId: 1e4,

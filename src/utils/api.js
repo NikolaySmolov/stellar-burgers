@@ -10,7 +10,7 @@ export const requireIngredients = async () => {
   return checkResponse(res);
 };
 
-export const sendOrder = async order => {
+export const sendOrder = async (order) => {
   const res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: {

@@ -3,6 +3,7 @@ import styles from './burger-ingredients.module.css';
 import { TabBar } from '../tab-bar/tab-bar';
 import IngredientsSection from '../ingredients-section/ingredients-section';
 import Modal from '../modal/modal';
+import ModalError from '../modal-error/modal-error';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -11,14 +12,11 @@ import {
   CLOSE_INGREDIENT_DETAILS,
 } from '../../services/actions/burger';
 
-import { modalStateReducer, modalInitialState } from './utils';
-import { OPEN, CLOSE } from '../../utils/constants';
-import { BurgerContext } from '../../services/burger-context';
-
 export default function BurgerIngredients() {
-  const [modalState, modalDispatcher] = React.useReducer(modalStateReducer, modalInitialState);
-  const { burgerContext } = React.useContext(BurgerContext);
   const [currentTab, setCurrentTab] = React.useState('buns');
+
+  const { ingredients, ingredientDetails, showModal, ingredientsRequest, ingredientsFailed } =
+    useSelector((store) => store.burger);
 
   const dispatch = useDispatch();
 
@@ -27,16 +25,19 @@ export default function BurgerIngredients() {
   }, [dispatch]);
 
   const handleCloseModal = () => {
-    modalDispatcher({ type: CLOSE });
+    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
   };
 
-  const handleOpenModal = details => {
-    modalDispatcher({ type: OPEN, payload: details });
-  };
+  const handleOpenModal = React.useCallback(
+    (details) => {
+      dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: details });
+    },
+    [dispatch]
+  );
 
-  const modal = modalState.details ? (
+  const modal = showModal ? (
     <Modal onClose={handleCloseModal}>
-      <IngredientDetails {...modalState.details} />
+      <IngredientDetails {...ingredientDetails} />
     </Modal>
   ) : null;
 
@@ -62,7 +63,7 @@ export default function BurgerIngredients() {
     const sauces = [];
     const main = [];
 
-    burgerContext.ingredients.forEach(ingredient => {
+    ingredients.forEach((ingredient) => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);
@@ -102,9 +103,11 @@ export default function BurgerIngredients() {
         />
       </>
     );
-  }, [burgerContext]);
+  }, [ingredients, handleOpenModal]);
 
-  return (
+  return ingredientsRequest ? null : ingredientsFailed ? (
+    <ModalError />
+  ) : (
     <>
       <section>
         <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
