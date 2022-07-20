@@ -1,22 +1,18 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
 import { TabBar } from '../tab-bar/tab-bar';
-import IngredientsSection from '../ingredients-section/ingredients-section';
+import { IngredientsSection } from '../ingredients-section/ingredients-section';
 import Modal from '../modal/modal';
 import ModalError from '../modal-error/modal-error';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  getIngredients,
-  OPEN_INGREDIENT_DETAILS,
-  CLOSE_INGREDIENT_DETAILS,
-} from '../../services/actions/burger';
+import { getIngredients, CLOSE_INGREDIENT_DETAILS } from '../../services/actions/burger';
 
 export default function BurgerIngredients() {
   const [currentTab, setCurrentTab] = React.useState('buns');
 
   const { ingredients, ingredientDetails, showModal, ingredientsRequest, ingredientsFailed } =
-    useSelector((store) => store.burger);
+    useSelector(store => store.burger);
 
   const dispatch = useDispatch();
 
@@ -27,13 +23,6 @@ export default function BurgerIngredients() {
   const handleCloseModal = () => {
     dispatch({ type: CLOSE_INGREDIENT_DETAILS });
   };
-
-  const handleOpenModal = React.useCallback(
-    (details) => {
-      dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: details });
-    },
-    [dispatch]
-  );
 
   const modal = showModal ? (
     <Modal onClose={handleCloseModal}>
@@ -63,7 +52,7 @@ export default function BurgerIngredients() {
     const sauces = [];
     const main = [];
 
-    ingredients.forEach((ingredient) => {
+    ingredients.forEach(ingredient => {
       switch (ingredient.type) {
         case 'bun':
           buns.push(ingredient);
@@ -81,29 +70,22 @@ export default function BurgerIngredients() {
 
     return (
       <>
-        <IngredientsSection
-          menuSection="Булки"
-          handleShowDetails={handleOpenModal}
-          data={buns}
-          ref={bunHeading}
-        />
+        <IngredientsSection menuSection="Булки" ingredientList={buns} ref={bunHeading} />
         <IngredientsSection
           headingRef={saucesHeading}
           menuSection="Соусы"
-          handleShowDetails={handleOpenModal}
-          data={sauces}
+          ingredientList={sauces}
           ref={saucesHeading}
         />
         <IngredientsSection
           headingRef={mainHeading}
           menuSection="Начинки"
-          handleShowDetails={handleOpenModal}
-          data={main}
+          ingredientList={main}
           ref={mainHeading}
         />
       </>
     );
-  }, [ingredients, handleOpenModal]);
+  }, [ingredients]);
 
   return ingredientsRequest ? null : ingredientsFailed ? (
     <ModalError />

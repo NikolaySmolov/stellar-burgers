@@ -52,12 +52,14 @@ export const burgerReducer = (state = initialState, action) => {
   }
 };
 
-const appendQuantity = (item) => {
+const appendQuantity = item => {
   item.qty = 0;
   return item;
 };
 
-const findIngredientIndex = (ing, array) => array.findIndex((item) => item._id === ing._id);
+const findIngredientIndex = (ing, array) => array.findIndex(item => item._id === ing._id);
+
+const resetQty = itemType => item => item.type === itemType && (item.qty = 0);
 
 const increaseQty = (ing, ingrArr, construcArr, tempId) => {
   const item = { ...ing };
@@ -66,7 +68,7 @@ const increaseQty = (ing, ingrArr, construcArr, tempId) => {
 
   item.tempId = tempId;
 
-  const bunIndex = constructor.findIndex((item) => item.type === BUN);
+  const bunIndex = constructor.findIndex(item => item.type === BUN);
   const bunInConstructor = ~bunIndex;
 
   if (item.type === BUN && bunInConstructor) {
@@ -83,12 +85,10 @@ const increaseQty = (ing, ingrArr, construcArr, tempId) => {
   return { ingredients, constructor };
 };
 
-const resetQty = (itemType) => (item) => item.type === itemType && (item.qty = 0);
-
 const decreaseQty = (ing, ingArr, construcArr) => {
   const item = ing;
   const ingredients = [...ingArr];
-  const constructor = construcArr.filter((listItem) => listItem.tempId !== item.tempId);
+  const constructor = construcArr.filter(listItem => listItem.tempId !== item.tempId);
 
   const itemIndex = findIngredientIndex(item, ingredients);
   ingredients[itemIndex].qty--;

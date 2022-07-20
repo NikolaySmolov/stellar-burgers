@@ -2,25 +2,18 @@ import React from 'react';
 import styles from './ingredient.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BUN, FILLING, ingredientPropTypes } from '../../utils/constants';
-import { BurgerContext } from '../../services/burger-context';
-
+import { ingredientPropTypes } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
-import { INCREASE_INGREDIENT } from '../../services/actions/burger';
+import { OPEN_INGREDIENT_DETAILS, INCREASE_INGREDIENT } from '../../services/actions/burger';
 
-export default function Ingredient(props) {
-  const { burgerContextDispatcher } = React.useContext(BurgerContext);
+export const Ingredient = React.memo(props => {
   const dispatch = useDispatch();
 
   const handleShowDetails = () => {
-    props.handleShowDetails(props);
+    dispatch({ type: OPEN_INGREDIENT_DETAILS, ingredient: props });
   };
 
   const handleAddInConstructor = () => {
-    const isBun = props.type === BUN;
-
-    burgerContextDispatcher({ type: isBun ? BUN : FILLING, payload: props });
-
     dispatch({ type: INCREASE_INGREDIENT, ingredient: props });
   };
 
@@ -32,20 +25,17 @@ export default function Ingredient(props) {
       draggable={'true'}>
       <img className={styles.image} src={props.image} alt={props.name} />
       <div className={`${styles.price} mt-1 mb-1`}>
-        <p className={`${styles.price__text} text text_type_digits-default mr-2`}>
-          {' '}
-          {props.price}{' '}
-        </p>
+        <p className={`${styles.price__text} text text_type_digits-default mr-2`}>{props.price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${styles.name} text text_type_main-default`}> {props.name} </p>
-      {props.qnty ? (
+      {props.qty ? (
         <div className={styles.counter}>
-          <Counter count={props.qnty} size="default" />
+          <Counter count={props.qty} size="default" />
         </div>
       ) : null}
     </article>
   );
-}
+});
 
 Ingredient.propTypes = ingredientPropTypes.isRequired;
