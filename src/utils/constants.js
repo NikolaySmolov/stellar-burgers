@@ -32,3 +32,5 @@ export const CLOSE = 'close';
 export const BUN = 'bun';
 export const FILLING = 'filling';
 export const CALC = 'calc';
+export const ADD = 'add';
+export const SORT = 'sort';

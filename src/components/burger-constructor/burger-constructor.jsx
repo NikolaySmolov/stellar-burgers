@@ -2,9 +2,11 @@ import React from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorRow } from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
-import { BUN, FILLING } from '../../utils/constants';
+import { ADD, BUN, FILLING } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_TOTALPRICE } from '../../services/actions/order';
+import { useDrop } from 'react-dnd';
+import { INCREASE_INGREDIENT } from '../../services/actions/burger';
 
 export default function BurgerConstructor() {
   const { constructor, totalPrice } = useSelector(store => ({
@@ -13,6 +15,13 @@ export default function BurgerConstructor() {
   }));
 
   const dispatch = useDispatch();
+
+  const [, dropRef] = useDrop({
+    accept: ADD,
+    drop(item) {
+      dispatch({ type: INCREASE_INGREDIENT, ingredient: item });
+    },
+  });
 
   React.useEffect(() => {
     const total = constructor.reduce((prev, curr) => {
@@ -42,7 +51,7 @@ export default function BurgerConstructor() {
 
   return (
     <section className={styles.constructor}>
-      <div className={styles.elements}>
+      <div className={styles.elements} ref={dropRef}>
         {includesBun ? <ConstructorRow isBun={true} type="top" data={inOrder[BUN][0]} /> : null}
         {incluedesFilling ? (
           <ul className={`${styles.fills} custom-scroll`}>
