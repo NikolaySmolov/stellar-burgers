@@ -12,7 +12,7 @@ export const Ingredient = React.memo(props => {
 
   const [{ isDrag }, dragRef] = useDrag({
     type: ADD,
-    item: props,
+    item: { id: props._id },
     collect: monitor => ({
       isDrag: monitor.isDragging(),
     }),

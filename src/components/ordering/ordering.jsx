@@ -11,7 +11,7 @@ import { sendOrder } from '../../services/actions/order';
 import { CLOSE_ORDER_DETAILS } from '../../services/actions/order';
 
 export default function Ordering({ totalPrice, orderList, isDisabled }) {
-  const { showModal, order, orderFailed } = useSelector(store => store.order);
+  const { showModal, orderStatus, orderFailed } = useSelector(store => store.order);
 
   const dispatch = useDispatch();
 
@@ -26,7 +26,7 @@ export default function Ordering({ totalPrice, orderList, isDisabled }) {
   const modal = showModal ? (
     !orderFailed ? (
       <Modal onClose={handleCloseModal}>
-        <OrderDetails orderId={order.number} />
+        <OrderDetails orderId={orderStatus.order.number} />
       </Modal>
     ) : (
       <ModalError />

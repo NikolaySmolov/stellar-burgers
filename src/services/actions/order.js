@@ -12,7 +12,7 @@ export const sendOrder = array => dispatch => {
   dispatch({ type: ORDER_REQUEST });
 
   requireOrder(array)
-    .then(res => dispatch({ type: ORDER_SUCCESS, orderDetails: res.order }))
+    .then(res => dispatch({ type: ORDER_SUCCESS, orderDetails: res }))
     .catch(err => {
       console.log(err);
       dispatch({ type: ORDER_FAILED });

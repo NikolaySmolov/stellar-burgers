@@ -7,7 +7,7 @@ import {
 } from '../actions/order';
 
 const initialState = {
-  order: null,
+  orderStatus: null,
   orderRequest: false,
   orderFailed: false,
   totalPrice: 0,
@@ -21,7 +21,7 @@ export const orderReducer = (state = initialState, action) => {
     case ORDER_REQUEST:
       return { ...state, orderRequest: true };
     case ORDER_SUCCESS:
-      return { ...state, orderRequest: false, order: action.orderDetails, showModal: true };
+      return { ...state, orderRequest: false, orderStatus: action.orderDetails, showModal: true };
     case ORDER_FAILED:
       return { ...state, orderRequest: false, orderFailed: true };
     case CLOSE_ORDER_DETAILS:
