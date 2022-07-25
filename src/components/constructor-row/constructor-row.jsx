@@ -11,12 +11,9 @@ import { useDrag, useDrop } from 'react-dnd';
 export const ConstructorRow = ({ isBun = false, type, data, position }) => {
   const dispatch = useDispatch();
 
-  const [{ isDrag }, dragRef] = useDrag({
+  const [, dragRef] = useDrag({
     type: SORT,
     item: { position },
-    collect: monitor => ({
-      isDrag: monitor.isDragging(),
-    }),
   });
 
   const [{ isHover }, dropRef] = useDrop({

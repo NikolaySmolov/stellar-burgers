@@ -67,7 +67,17 @@ export const burgerReducer = (state = initialState, action) => {
     case CLOSE_INGREDIENT_DETAILS:
       return { ...state, ingredientDetails: null, showModal: false };
     case SORT_INGREDIENT:
-      return state;
+      const sortableItem = state.constructor.filling.find(
+        (_, index) => index === action.payload.dragItemPos
+      );
+
+      const sortedFillings = [...state.constructor.filling].filter(
+        (_, index) => index !== action.payload.dragItemPos
+      );
+
+      sortedFillings.splice(action.payload.dropTargetPos, 0, sortableItem);
+
+      return { ...state, constructor: { ...state.constructor, filling: sortedFillings } };
     default:
       return state;
   }
