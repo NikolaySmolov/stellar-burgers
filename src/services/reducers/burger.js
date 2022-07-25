@@ -7,14 +7,14 @@ import {
   DECREASE_INGREDIENT,
   OPEN_INGREDIENT_DETAILS,
   CLOSE_INGREDIENT_DETAILS,
+  SORT_INGREDIENT,
 } from '../actions/burger';
 
 const initialState = {
   ingredients: [],
   ingredientsRequest: true,
   ingredientsFailed: false,
-  constructor: [],
-  constructorTempId: 1e4,
+  constructor: { bun: [], filling: [] },
   ingredientDetails: null,
   showModal: false,
 };
@@ -28,25 +28,46 @@ export const burgerReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_FAILED:
       return { ...state, ingredientsRequest: false, ingredientsFailed: true };
     case INCREASE_INGREDIENT:
+      const increasedIngredients = [...state.ingredients];
+      const increasedConstructor = { ...state.constructor };
+
+      const draggableItem = increasedIngredients.find(ing => ing._id === action.itemId);
+
+      if (draggableItem.type === BUN) {
+        increasedConstructor.bun[0] = draggableItem;
+        increasedIngredients.forEach(ing => (ing.type === BUN ? (ing.qty = 0) : null));
+      } else {
+        increasedConstructor.filling.push(draggableItem);
+      }
+
+      draggableItem.qty++;
+
       return {
         ...state,
-        constructorTempId: ++state.constructorTempId,
-        ...increaseQty(
-          action.ingredient,
-          state.ingredients,
-          state.constructor,
-          state.constructorTempId
-        ),
+        ingredients: increasedIngredients,
+        constructor: increasedConstructor,
       };
+
     case DECREASE_INGREDIENT:
+      const decreasedIngredients = [...state.ingredients];
+      const decreasableItem = decreasedIngredients.find(ing => ing._id === action.payload.itemId);
+      decreasableItem.qty--;
+
+      const decreasedConstructor = state.constructor.filling.filter(
+        (_, index) => index !== action.payload.itemPos
+      );
+
       return {
         ...state,
-        ...decreaseQty(action.ingredient, state.ingredients, state.constructor),
+        ingredients: decreasedIngredients,
+        constructor: { ...state.constructor, filling: decreasedConstructor },
       };
     case OPEN_INGREDIENT_DETAILS:
       return { ...state, ingredientDetails: action.ingredient, showModal: true };
     case CLOSE_INGREDIENT_DETAILS:
       return { ...state, ingredientDetails: null, showModal: false };
+    case SORT_INGREDIENT:
+      return state;
     default:
       return state;
   }
@@ -55,43 +76,4 @@ export const burgerReducer = (state = initialState, action) => {
 const appendQuantity = item => {
   item.qty = 0;
   return item;
-};
-
-const findIngredientIndex = (ing, array) => array.findIndex(item => item._id === ing._id);
-
-const resetQty = itemType => item => item.type === itemType && (item.qty = 0);
-
-const increaseQty = (ing, ingrArr, construcArr, tempId) => {
-  const item = { ...ing };
-  const ingredients = [...ingrArr];
-  const constructor = [...construcArr];
-
-  item.tempId = tempId;
-
-  const bunIndex = constructor.findIndex(item => item.type === BUN);
-  const bunInConstructor = ~bunIndex;
-
-  if (item.type === BUN && bunInConstructor) {
-    ingredients.forEach(resetQty(BUN));
-    constructor[bunIndex] = item;
-  } else {
-    constructor.push(item);
-  }
-
-  const itemIndex = findIngredientIndex(item, ingredients);
-
-  ingredients[itemIndex].qty++;
-
-  return { ingredients, constructor };
-};
-
-const decreaseQty = (ing, ingArr, construcArr) => {
-  const item = ing;
-  const ingredients = [...ingArr];
-  const constructor = construcArr.filter(listItem => listItem.tempId !== item.tempId);
-
-  const itemIndex = findIngredientIndex(item, ingredients);
-  ingredients[itemIndex].qty--;
-
-  return { ingredients, constructor };
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorRow } from '../constructor-row/constructor-row';
 import Ordering from '../ordering/ordering';
-import { ADD, BUN, FILLING } from '../../utils/constants';
+import { ADD, BUN } from '../../utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { SET_TOTALPRICE } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
@@ -14,53 +14,53 @@ export default function BurgerConstructor() {
     totalPrice: store.order.totalPrice,
   }));
 
+  const flatConstructor = React.useMemo(
+    () => [...constructor.bun, ...constructor.filling],
+    [constructor]
+  );
+
   const dispatch = useDispatch();
 
   const [, dropRef] = useDrop({
     accept: ADD,
-    drop(item) {
-      dispatch({ type: INCREASE_INGREDIENT, ingredient: item });
+    drop({ id }) {
+      dispatch({ type: INCREASE_INGREDIENT, itemId: id });
     },
   });
 
   React.useEffect(() => {
-    const total = constructor.reduce((prev, curr) => {
+    const total = flatConstructor.reduce((prev, curr) => {
       curr.type === BUN ? (prev += curr.price * 2) : (prev += curr.price);
       return prev;
     }, 0);
 
     dispatch({ type: SET_TOTALPRICE, total });
-  }, [constructor, dispatch]);
+  }, [flatConstructor, dispatch]);
 
   const orderList = React.useMemo(() => {
-    return constructor.map(item => item._id);
-  }, [constructor]);
+    return flatConstructor.map(item => item._id);
+  }, [flatConstructor]);
 
-  const inOrder = constructor.reduce(
-    (acceptor, curr) => {
-      curr.type === BUN ? acceptor[BUN].push(curr) : acceptor[FILLING].push(curr);
-      return acceptor;
-    },
-    { [BUN]: [], [FILLING]: [] }
-  );
-  const includesBun = !!inOrder[BUN].length;
+  const includesBun = !!constructor.bun.length;
 
-  const incluedesFilling = !!inOrder[FILLING].length;
+  const incluedesFilling = !!constructor.filling.length;
 
   const canOrder = includesBun && incluedesFilling;
 
   return (
     <section className={styles.constructor}>
       <div className={styles.elements} ref={dropRef}>
-        {includesBun ? <ConstructorRow isBun={true} type="top" data={inOrder[BUN][0]} /> : null}
+        {includesBun ? <ConstructorRow isBun={true} type="top" data={constructor.bun[0]} /> : null}
         {incluedesFilling ? (
           <ul className={`${styles.fills} custom-scroll`}>
-            {inOrder[FILLING].map(item => (
-              <ConstructorRow key={item.tempId} data={item} />
+            {constructor.filling.map((item, index) => (
+              <ConstructorRow key={index} data={item} position={index} />
             ))}
           </ul>
         ) : null}
-        {includesBun ? <ConstructorRow isBun={true} type="bottom" data={inOrder[BUN][0]} /> : null}
+        {includesBun ? (
+          <ConstructorRow isBun={true} type="bottom" data={constructor.bun[0]} />
+        ) : null}
       </div>
       <Ordering isDisabled={!canOrder} orderList={orderList} totalPrice={totalPrice} />
     </section>
