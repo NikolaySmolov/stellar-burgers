@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { refPropTypes } from '../../utils/constants';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './tab-bar.module.css';
 
@@ -38,4 +40,11 @@ export const TabBar = ({ bunSectionRef, sauceSectionRef, mainSectionRef, current
       </li>
     </ul>
   );
+};
+
+TabBar.propTypes = {
+  bunSectionRef: refPropTypes,
+  sauceSectionRef: refPropTypes,
+  mainSectionRef: refPropTypes,
+  currentTab: PropTypes.string,
 };

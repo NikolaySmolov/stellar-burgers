@@ -27,6 +27,10 @@ export const ingredientDetails = PropTypes.shape({
   carbohydrates: PropTypes.number,
 });
 
+export const refPropTypes = PropTypes.shape({
+  current: PropTypes.object,
+});
+
 export const OPEN = 'open';
 export const CLOSE = 'close';
 export const BUN = 'bun';
