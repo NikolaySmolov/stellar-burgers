@@ -5,48 +5,28 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
-import { sendOrder } from '../../utils/api';
 import ModalError from '../modal-error/modal-error';
+import { useSelector, useDispatch } from 'react-redux';
+import { sendOrder } from '../../services/actions/order';
+import { CLOSE_ORDER_DETAILS } from '../../services/actions/order';
 
 export default function Ordering({ totalPrice, orderList, isDisabled }) {
-  const [showModal, setModalState] = React.useState(false);
-  const [orderState, setOrderState] = React.useState({
-    loading: false,
-    success: true,
-    orderNumber: null,
-  });
+  const { showModal, orderStatus, orderFailed } = useSelector(store => store.order);
+
+  const dispatch = useDispatch();
 
   const handleSendOrder = () => {
-    setOrderState(orderState => ({ ...orderState, loading: true, success: false }));
-
-    sendOrder(orderList)
-      .then(data => {
-        setOrderState({
-          loading: false,
-          success: true,
-          orderNumber: data.order.number,
-        });
-        handleOpenModal();
-      })
-      .catch(err => {
-        setOrderState({ loading: false, success: false, orderNumber: null });
-        console.log(err);
-        handleOpenModal();
-      });
+    dispatch(sendOrder(orderList));
   };
 
   const handleCloseModal = () => {
-    setModalState(false);
-  };
-
-  const handleOpenModal = () => {
-    setModalState(true);
+    dispatch({ type: CLOSE_ORDER_DETAILS });
   };
 
   const modal = showModal ? (
-    orderState.success ? (
+    !orderFailed ? (
       <Modal onClose={handleCloseModal}>
-        <OrderDetails orderId={orderState.orderNumber} />
+        <OrderDetails orderId={orderStatus.order.number} />
       </Modal>
     ) : (
       <ModalError />
